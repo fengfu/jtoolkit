@@ -11,12 +11,12 @@ read -p "请输入:" num
 
 if [ $num -eq '1' ];then
 
-elif [ $num -eq '2' ]; then
+elif [ $num -eq '2' ];then
   #statements
-elif [ $num -eq '3' ]; then
+elif [ $num -eq '3' ];then
   #statements
-elif [ $num -eq '4' ]; then
+elif [ $num -eq '4' ];then
   #statements
-elif [ $num -eq '0' ]; then
+elif [ $num -eq '0' ];then
   sh menu_load.sh
 fi
