@@ -25,7 +25,7 @@ echo "您的选择是:" $num
 if [ $num -eq '1' ];then
   if [ ! -f "load/menu_load.sh" ]; then
     mkdir load && cd load
-    wget http://gitlab.corp.qunar.com/fengfu.qu/jtoolkit/raw/master/load/menu_load.sh
+    wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/load/menu_load.sh
   fi
   sh menu_load.sh
 elif [ $num -eq '2' ];then
