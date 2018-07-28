@@ -41,7 +41,7 @@ elif [ $num -eq '2' ];then
     wget --no-check-certificate http://repo1.maven.org/maven2/com/vip/vjtools/vjtop/1.0.1/vjtop-1.0.1.zip && unzip vjtop-1.0.1.zip
   fi
   cd vjtop
-  
+  ./vjtop.sh $pid
 elif [ $num -eq '3' ];then
   echo "敬请期待"
 elif [ $num -eq '4' ];then
