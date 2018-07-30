@@ -62,6 +62,16 @@ elif [ $num -eq '2' ];then
   cd ..
   source ./menu_load.sh
 elif [ $num -eq '3' ];then
+  read -p "请输入PID或进程路径关键字:" process
+
+  is_num=`is_number $process`
+  if [[ $is_num -eq 'false' ]]; then
+    #根据进程关键字获取pid
+    pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
+  else
+    pid=process
+  fi
+  
   if [ ! -d "async-profiler" ]; then
     sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
     sudo mkdir async-profiler
