@@ -5,11 +5,12 @@
 echo "1.统计各进程Swap使用情况"
 echo "2.关闭Swap"
 echo "0.返回上级菜单"
+echo ""
 read -p "请输入:" num
 
 if [ $num -eq '1' ];then
   if [ ! -f "show_swap_processes.sh" ]; then
-    sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/swap/show_swap_processes.sh
+    sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/swap/show_swap_processes.sh >> /dev/null 2>&1
   fi
   echo "执行show_swap_processes.sh..."
   sh show_swap_processes.sh

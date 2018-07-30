@@ -7,6 +7,7 @@ echo "2.线程CPU时间占比排行(VJTop)"
 echo "3.生成火焰图(10分钟)"
 echo "4.生成飞行记录JFR(10分钟)"
 echo "0.返回上级菜单"
+echo ""
 
 read -p "请输入功能序号:" num
 
@@ -49,11 +50,11 @@ elif [ $num -eq '2' ];then
   group=`id -gn $user`
 
   if [ ! -d "vjtop" ]; then
-    sudo wget --no-check-certificate http://repo1.maven.org/maven2/com/vip/vjtools/vjtop/1.0.1/vjtop-1.0.1.zip
-    sudo unzip vjtop-1.0.1.zip
-    sudo rm -f vjtop-1.0.1.zip
+    sudo wget --no-check-certificate http://repo1.maven.org/maven2/com/vip/vjtools/vjtop/1.0.1/vjtop-1.0.1.zip >> /dev/null 2>&1
+    sudo unzip vjtop-1.0.1.zip >> /dev/null 2>&1
+    sudo rm -f vjtop-1.0.1.zip >> /dev/null 2>&1
     #修改属主
-    sudo chown $group.$user -R vjtop
+    sudo chown $group.$user -R vjtop >> /dev/null 2>&1
   fi
   cd vjtop
   sudo -u $user ./vjtop.sh $pid

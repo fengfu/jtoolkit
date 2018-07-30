@@ -18,6 +18,7 @@ echo "3.Swap高"
 echo "4.JVM参数检查"
 echo "5.工具安装"
 echo "0.退出"
+echo ""
 
 #在/home/q目录下创建jtoolkit目录
 cd /home/q
@@ -31,7 +32,7 @@ if [ ! -f "jtoolkit.sh" ]; then
 fi
 
 read -p "请输入选项编号:" num
-echo "您的选择是:" $num
+#echo "您的选择是:" $num
 
 if [ $num -eq '1' ];then
   if [ ! -d "load" ]; then
