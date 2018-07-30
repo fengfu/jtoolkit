@@ -51,13 +51,14 @@ elif [ $num -eq '2' ];then
   if [ ! -d "vjtop" ]; then
     sudo wget --no-check-certificate http://repo1.maven.org/maven2/com/vip/vjtools/vjtop/1.0.1/vjtop-1.0.1.zip
     sudo unzip vjtop-1.0.1.zip
+    sudo rm -f vjtop-1.0.1.zip
     #修改属主
     sudo chown $group.$user -R vjtop
   fi
   cd vjtop
   sudo -u $user ./vjtop.sh $pid
 
-  source ./menu_load.sh
+  source ../menu_load.sh
 elif [ $num -eq '3' ];then
   echo "敬请期待"
 
