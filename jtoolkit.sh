@@ -35,8 +35,9 @@ elif [ $num -eq '3' ];then
   if [ ! -f "swap/menu_swap.sh" ]; then
     sudo mkdir swap && cd swap
     sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/swap/menu_swap.sh
+  else
+    cd swap
   fi
-  cd swap
   sh menu_swap.sh
 
 elif [ $num -eq '4' ];then
