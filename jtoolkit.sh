@@ -34,8 +34,11 @@ read -p "请输入选项编号:" num
 echo "您的选择是:" $num
 
 if [ $num -eq '1' ];then
-  if [ ! -f "load/menu_load.sh" ]; then
-    sudo mkdir load && cd load
+  if [ ! -d "load" ]; then
+    sudo mkdir load
+  fi
+  cd load
+  if [ ! -f "menu_load.sh" ]; then
     sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/load/menu_load.sh
   fi
   sh menu_load.sh
@@ -43,8 +46,11 @@ elif [ $num -eq '2' ];then
   cd gc
   source ./menu_gc.sh
 elif [ $num -eq '3' ];then
-  if [ ! -f "swap/menu_swap.sh" ]; then
-    sudo mkdir swap && cd swap
+  if [ ! -d "swap" ]; then
+    sudo mkdir swap
+  fi
+  cd swap
+  if [ ! -f "menu_swap.sh" ]; then
     sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/swap/menu_swap.sh
   else
     cd swap
@@ -54,6 +60,9 @@ elif [ $num -eq '3' ];then
 elif [ $num -eq '4' ];then
   echo "敬请期待..."
 elif [ $num -eq '5' ];then
+  if [ ! -d "tools" ]; then
+    sudo mkdir tools
+  fi
   cd tools
   source ./menu_tools.sh
 elif [ $num -eq '0' ];then
