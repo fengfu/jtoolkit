@@ -85,10 +85,13 @@ elif [ $num -eq '3' ];then
   fi
   cd async-profiler
   fname="flamegraph_$pid.svg"
+  echo "正在收集数据,请稍等......"
+
   sudo ./profiler.sh -d 30 -f $fname $pid
 
   if [ -f "/tmp/hsperfdata_$user/$fname" ]; then
     echo "火焰图文件已生成,路径为:/tmp/hsperfdata_$user/$fname"
+    echo ""
   fi
   cd ..
   source ./menu_load.sh
@@ -116,10 +119,13 @@ elif [ $num -eq '4' ];then
   fi
   cd async-profiler
   fname="jfr_$pid.jfr"
+  echo "正在收集数据,请稍等......"
+  
   sudo ./profiler.sh -d 30 -o jfr -f $fname $pid
 
   if [ -f "/tmp/hsperfdata_$user/$fname" ]; then
     echo "JFR文件已生成,路径为:/tmp/hsperfdata_$user/fname"
+    echo ""
   fi
 
   cd ..
