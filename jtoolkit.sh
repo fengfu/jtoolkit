@@ -42,7 +42,7 @@ if [ $num -eq '1' ];then
   if [ ! -f "menu_load.sh" ]; then
     sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/load/menu_load.sh >> /dev/null 2>&1
   fi
-  sh menu_load.sh
+  source menu_load.sh
 elif [ $num -eq '2' ];then
   cd gc
   source ./menu_gc.sh
