@@ -59,7 +59,8 @@ elif [ $num -eq '2' ];then
   cd vjtop
   sudo -u $user ./vjtop.sh $pid
 
-  source ../menu_load.sh
+  cd ..
+  source ./menu_load.sh
 elif [ $num -eq '3' ];then
   echo "敬请期待"
 
