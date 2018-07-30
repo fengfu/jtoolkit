@@ -71,7 +71,7 @@ elif [ $num -eq '3' ];then
   else
     pid=process
   fi
-  
+
   if [ ! -d "async-profiler" ]; then
     sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
     sudo mkdir async-profiler
@@ -81,7 +81,7 @@ elif [ $num -eq '3' ];then
     #sudo chown $group.$user -R vjtop >> /dev/null 2>&1
   fi
   cd async-profiler
-  ./profiler.sh -d 30 -f /tmp/flamegraph_$pid.svg $pid
+  sudo ./profiler.sh -d 30 -f /tmp/flamegraph_$pid.svg $pid
 
   cd ..
   source ./menu_load.sh
@@ -95,7 +95,7 @@ elif [ $num -eq '4' ];then
     #sudo chown $group.$user -R vjtop >> /dev/null 2>&1
   fi
   cd async-profiler
-  ./profiler.sh -d 30 -o jfr -f /tmp/flamegraph_$pid.jfr $pid
+  sudo ./profiler.sh -d 30 -o jfr -f /tmp/flamegraph_$pid.jfr $pid
 
   cd ..
 
