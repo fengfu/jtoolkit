@@ -72,6 +72,9 @@ elif [ $num -eq '3' ];then
     pid=process
   fi
 
+  #获取启动进程的用户名
+  user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
+
   if [ ! -d "async-profiler" ]; then
     sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
     sudo mkdir async-profiler
@@ -81,11 +84,28 @@ elif [ $num -eq '3' ];then
     #sudo chown $group.$user -R vjtop >> /dev/null 2>&1
   fi
   cd async-profiler
-  sudo ./profiler.sh -d 30 -f /tmp/flamegraph_$pid.svg $pid
+  fname="flamegraph_$pid.svg"
+  sudo ./profiler.sh -d 30 -f $fname $pid
 
+  if [ ! -f "/tmp/hsperfdata_$user/$fname" ]; then
+    echo "火焰图文件已生成,路径为:/tmp/hsperfdata_$user/$fname"
+  fi
   cd ..
   source ./menu_load.sh
 elif [ $num -eq '4' ];then
+  read -p "请输入PID或进程路径关键字:" process
+
+  is_num=`is_number $process`
+  if [[ $is_num -eq 'false' ]]; then
+    #根据进程关键字获取pid
+    pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
+  else
+    pid=process
+  fi
+
+  #获取启动进程的用户名
+  user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
+
   if [ ! -d "async-profiler" ]; then
     sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
     sudo mkdir async-profiler
@@ -95,9 +115,13 @@ elif [ $num -eq '4' ];then
     #sudo chown $group.$user -R vjtop >> /dev/null 2>&1
   fi
   cd async-profiler
-  sudo ./profiler.sh -d 30 -o jfr -f /tmp/flamegraph_$pid.jfr $pid
+  fname="jfr_$pid.jfr"
+  sudo ./profiler.sh -d 30 -o jfr -f $fname $pid
+
+  if [ ! -f "/tmp/hsperfdata_$user/$fname" ]; then
+    echo "JFR文件已生成,路径为:/tmp/hsperfdata_$user/fname"
+  fi
 
   cd ..
-
   source ./menu_load.sh
 fi
