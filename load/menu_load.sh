@@ -25,15 +25,15 @@ if [ $num -eq '0' ];then
 elif [ $num -eq '1' ];then
   #如果文件不存在，先下载文件
   if [ ! -f "show_busy_threads_with_percent.sh" ]; then
-    sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/load/show_busy_threads_with_percent.sh
-    sudo chmod +x show_busy_threads_with_percent.sh
+    sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/load/show_busy_threads_with_percent.sh >> /dev/null 2>&1
+    sudo chmod +x show_busy_threads_with_percent.sh >> /dev/null 2>&1
   fi
 
   sudo ./show_busy_threads_with_percent.sh
 
   source ./menu_load.sh
 elif [ $num -eq '2' ];then
-  read -p "请输入PID或:进程路径关键字:" process
+  read -p "请输入PID或进程路径关键字:" process
 
   is_num=`is_number $process`
   if [[ $is_num -eq 'false' ]]; then
