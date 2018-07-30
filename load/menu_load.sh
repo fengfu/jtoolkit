@@ -29,6 +29,8 @@ elif [ $num -eq '1' ];then
   fi
 
   sudo ./show_busy_threads_with_percent.sh
+
+  source ./menu_load.sh
 elif [ $num -eq '2' ];then
   read -p "请输入PID或:进程路径关键字:" process
 
@@ -54,8 +56,14 @@ elif [ $num -eq '2' ];then
   fi
   cd vjtop
   sudo -u $user ./vjtop.sh $pid
+
+  source ./menu_load.sh
 elif [ $num -eq '3' ];then
   echo "敬请期待"
+
+  source ./menu_load.sh
 elif [ $num -eq '4' ];then
   echo "敬请期待"
+
+  source ./menu_load.sh
 fi
