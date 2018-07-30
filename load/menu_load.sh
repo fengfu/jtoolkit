@@ -87,7 +87,7 @@ elif [ $num -eq '3' ];then
   fname="flamegraph_$pid.svg"
   sudo ./profiler.sh -d 30 -f $fname $pid
 
-  if [ ! -f "/tmp/hsperfdata_$user/$fname" ]; then
+  if [ -f "/tmp/hsperfdata_$user/$fname" ]; then
     echo "火焰图文件已生成,路径为:/tmp/hsperfdata_$user/$fname"
   fi
   cd ..
@@ -118,7 +118,7 @@ elif [ $num -eq '4' ];then
   fname="jfr_$pid.jfr"
   sudo ./profiler.sh -d 30 -o jfr -f $fname $pid
 
-  if [ ! -f "/tmp/hsperfdata_$user/$fname" ]; then
+  if [ -f "/tmp/hsperfdata_$user/$fname" ]; then
     echo "JFR文件已生成,路径为:/tmp/hsperfdata_$user/fname"
   fi
 
