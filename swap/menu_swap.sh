@@ -13,9 +13,12 @@ if [ $num -eq '1' ];then
   fi
   echo "执行show_swap_processes.sh..."
   sh show_swap_processes.sh
+
+  #在当前进程执行
+  source ./menu_swap.sh
 elif [ $num -eq '2' ];then
   echo "关闭Swap"
 elif [[ $num -eq '0' ]]; then
   cd ..
-  sh ./jtoolkit.sh
+  source ./jtoolkit.sh
 fi

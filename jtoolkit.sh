@@ -19,6 +19,17 @@ echo "4.JVM参数检查"
 echo "5.工具安装"
 echo "0.退出"
 
+#在/home/q目录下创建jtoolkit目录
+cd /home/q
+if [ ! -d "jtoolkit" ]; then
+  sudo mkdir jtoolkit
+fi
+cd jtoolkit
+if [ ! -f "jtoolkit.sh" ]; then
+  sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/jtoolkit.sh
+  sudo chmod +x jtoolkit.sh
+fi
+
 read -p "请输入选项编号:" num
 echo "您的选择是:" $num
 
@@ -30,7 +41,7 @@ if [ $num -eq '1' ];then
   sh menu_load.sh
 elif [ $num -eq '2' ];then
   cd gc
-  sh menu_gc.sh
+  source ./menu_gc.sh
 elif [ $num -eq '3' ];then
   if [ ! -f "swap/menu_swap.sh" ]; then
     sudo mkdir swap && cd swap
@@ -38,13 +49,13 @@ elif [ $num -eq '3' ];then
   else
     cd swap
   fi
-  sh menu_swap.sh
+  source ./menu_swap.sh
 
 elif [ $num -eq '4' ];then
   echo "敬请期待..."
 elif [ $num -eq '5' ];then
   cd tools
-  sh menu_tools.sh
+  source ./menu_tools.sh
 elif [ $num -eq '0' ];then
   echo "Goodbye"
 fi

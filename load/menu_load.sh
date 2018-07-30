@@ -8,17 +8,6 @@ echo "3.生成火焰图(10分钟)"
 echo "4.生成飞行记录JFR(10分钟)"
 echo "0.返回上级菜单"
 
-#在/home/q目录下创建jtoolkit目录
-cd /home/q
-if [ ! -d "jtoolkit" ]; then
-  sudo mkdir jtoolkit
-fi
-cd jtoolkit
-if [ ! -f "show_busy_threads_with_percent.sh" ]; then
-  sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/jtoolkit.sh
-  sudo chmod +x jtoolkit.sh
-fi
-
 read -p "请输入功能序号:" num
 
 is_number(){
@@ -31,7 +20,7 @@ is_number(){
 }
 
 if [ $num -eq '0' ];then
-  sh ./jtoolkit.sh
+  source ../jtoolkit.sh
 elif [ $num -eq '1' ];then
   #如果文件不存在，先下载文件
   if [ ! -f "show_busy_threads_with_percent.sh" ]; then
