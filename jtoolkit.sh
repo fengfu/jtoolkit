@@ -26,8 +26,8 @@ if [ ! -d "jtoolkit" ]; then
 fi
 cd jtoolkit
 if [ ! -f "jtoolkit.sh" ]; then
-  sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/jtoolkit.sh
-  sudo chmod +x jtoolkit.sh
+  sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/jtoolkit.sh >> /dev/null 2>&1
+  sudo chmod +x jtoolkit.sh >> /dev/null 2>&1
 fi
 
 read -p "请输入选项编号:" num
@@ -39,7 +39,7 @@ if [ $num -eq '1' ];then
   fi
   cd load
   if [ ! -f "menu_load.sh" ]; then
-    sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/load/menu_load.sh
+    sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/load/menu_load.sh >> /dev/null 2>&1
   fi
   sh menu_load.sh
 elif [ $num -eq '2' ];then
@@ -51,7 +51,7 @@ elif [ $num -eq '3' ];then
   fi
   cd swap
   if [ ! -f "menu_swap.sh" ]; then
-    sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/swap/menu_swap.sh
+    sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/swap/menu_swap.sh >> /dev/null 2>&1
   else
     cd swap
   fi

@@ -24,7 +24,8 @@ if [ $num -eq '0' ];then
 elif [ $num -eq '1' ];then
   #如果文件不存在，先下载文件
   if [ ! -f "show_busy_threads_with_percent.sh" ]; then
-    sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/load/show_busy_threads_with_percent.sh && chmod +x show_busy_threads_with_percent.sh
+    sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/load/show_busy_threads_with_percent.sh
+    sudo chmod +x show_busy_threads_with_percent.sh
   fi
 
   sudo ./show_busy_threads_with_percent.sh
