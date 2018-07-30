@@ -62,11 +62,32 @@ elif [ $num -eq '2' ];then
   cd ..
   source ./menu_load.sh
 elif [ $num -eq '3' ];then
-  echo "敬请期待"
+  if [ ! -d "async-profiler" ]; then
+    sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
+    sudo mkdir async-profiler
+    sudo tar -xvf async-profiler-1.4-linux-x64.tar.gz -C async-profiler >> /dev/null 2>&1
+    sudo rm -f async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
+    #修改属主
+    #sudo chown $group.$user -R vjtop >> /dev/null 2>&1
+  fi
+  cd async-profiler
+  ./profiler.sh -d 30 -f /tmp/flamegraph_$pid.svg $pid
 
+  cd ..
   source ./menu_load.sh
 elif [ $num -eq '4' ];then
-  echo "敬请期待"
+  if [ ! -d "async-profiler" ]; then
+    sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
+    sudo mkdir async-profiler
+    sudo tar -xvf async-profiler-1.4-linux-x64.tar.gz -C async-profiler >> /dev/null 2>&1
+    sudo rm -f async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
+    #修改属主
+    #sudo chown $group.$user -R vjtop >> /dev/null 2>&1
+  fi
+  cd async-profiler
+  ./profiler.sh -d 30 -o jfr -f /tmp/flamegraph_$pid.jfr $pid
+
+  cd ..
 
   source ./menu_load.sh
 fi
