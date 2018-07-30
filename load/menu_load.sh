@@ -7,6 +7,18 @@ echo "2.线程CPU时间占比排行(VJTop)"
 echo "3.生成火焰图(10分钟)"
 echo "4.生成飞行记录JFR(10分钟)"
 echo "0.返回上级菜单"
+
+#在/home/q目录下创建jtoolkit目录
+cd /home/q
+if [ ! -d "jtoolkit" ]; then
+  sudo mkdir jtoolkit
+fi
+cd jtoolkit
+if [ ! -f "show_busy_threads_with_percent.sh" ]; then
+  sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/jtoolkit.sh
+  sudo chmod +x jtoolkit.sh
+fi
+
 read -p "请输入功能序号:" num
 
 is_number(){
@@ -19,7 +31,7 @@ is_number(){
 }
 
 if [ $num -eq '0' ];then
-  sh ../jtoolkit.sh
+  sh ./jtoolkit.sh
 elif [ $num -eq '1' ];then
   #如果文件不存在，先下载文件
   if [ ! -f "show_busy_threads_with_percent.sh" ]; then
@@ -32,16 +44,26 @@ elif [ $num -eq '2' ];then
 
   is_num=`is_number $process`
   if [[ $is_num -eq 'false' ]]; then
+    #根据进程关键字获取pid
     pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
   else
     pid=process
   fi
 
+  #获取启动进程的用户名
+  user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
+
+  #获取用户所在组
+  group=`id -gn $user`
+
   if [ ! -d "vjtop" ]; then
-    wget --no-check-certificate http://repo1.maven.org/maven2/com/vip/vjtools/vjtop/1.0.1/vjtop-1.0.1.zip && unzip vjtop-1.0.1.zip
+    sudo wget --no-check-certificate http://repo1.maven.org/maven2/com/vip/vjtools/vjtop/1.0.1/vjtop-1.0.1.zip
+    sudo unzip vjtop-1.0.1.zip
+    #修改属主
+    sudo chown $group.$user -R vjtop
   fi
   cd vjtop
-  ./vjtop.sh $pid
+  sudo -u $user ./vjtop.sh $pid
 elif [ $num -eq '3' ];then
   echo "敬请期待"
 elif [ $num -eq '4' ];then

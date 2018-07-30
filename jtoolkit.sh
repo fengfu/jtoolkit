@@ -29,14 +29,17 @@ if [ $num -eq '1' ];then
   fi
   sh menu_load.sh
 elif [ $num -eq '2' ];then
-  sh GC_index.sh
+  cd gc
+  sh menu_gc.sh
 elif [ $num -eq '3' ];then
-  sh Swap_index.sh
+  cd swap
+  sh menu_swap.sh
 
 elif [ $num -eq '4' ];then
   echo "敬请期待..."
 elif [ $num -eq '5' ];then
-  sh Tools_index.sh
+  cd tools
+  sh menu_tools.sh
 elif [ $num -eq '0' ];then
   echo "Goodbye"
 fi
