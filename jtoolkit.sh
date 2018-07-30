@@ -24,14 +24,18 @@ echo "您的选择是:" $num
 
 if [ $num -eq '1' ];then
   if [ ! -f "load/menu_load.sh" ]; then
-    mkdir load && cd load
-    wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/load/menu_load.sh
+    sudo mkdir load && cd load
+    sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/load/menu_load.sh
   fi
   sh menu_load.sh
 elif [ $num -eq '2' ];then
   cd gc
   sh menu_gc.sh
 elif [ $num -eq '3' ];then
+  if [ ! -f "swap/menu_swap.sh" ]; then
+    sudo mkdir swap && cd swap
+    sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/swap/menu_swap.sh
+  fi
   cd swap
   sh menu_swap.sh
 
