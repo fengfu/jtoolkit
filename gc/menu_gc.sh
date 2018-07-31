@@ -8,6 +8,9 @@ echo "3.FullGC频繁"
 echo "4.YoungGC时间久"
 echo "5.远程分析gc.log"
 echo "0.返回上级菜单"
+echo ""
+
+read -p "请输入:" num
 
 if [[ $num -eq '0' ]]; then
   cd ..
