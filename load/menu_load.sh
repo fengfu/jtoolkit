@@ -2,6 +2,7 @@
 # Load工具箱入口
 # @author: qufengfu@gmail.com
 
+echo ""
 echo "1.显示Java线程栈的CPU时间占比"
 echo "2.线程CPU时间占比排行(VJTop)"
 echo "3.生成火焰图(10分钟)"
