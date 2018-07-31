@@ -2,6 +2,7 @@
 # JVM工具箱入口
 # @author: qufengfu@gmail.com
 
+echo ">>>>>>>>>>JVM工具箱<<<<<<<<<<"
 echo ""
 echo "1.JVM参数检查"
 echo "2.JVM参数建议"
