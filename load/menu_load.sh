@@ -22,7 +22,8 @@ is_number(){
 }
 
 if [ $num -eq '0' ];then
-  source ../jtoolkit.sh
+  cd ..
+  source ./jtoolkit.sh
 elif [ $num -eq '1' ];then
   #如果文件不存在，先下载文件
   if [ ! -f "show_busy_threads_with_percent.sh" ]; then
