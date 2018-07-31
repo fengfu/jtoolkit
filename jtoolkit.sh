@@ -15,7 +15,7 @@ echo "欢迎使用Linux开发工具箱,本工具箱提供以下问题的排查�
 echo "1.Load高"
 echo "2.GC问题"
 echo "3.Swap高"
-echo "4.JVM参数检查"
+echo "4.JVM参数"
 echo "5.工具安装"
 echo "0.退出"
 echo ""
@@ -34,38 +34,28 @@ fi
 read -p "请输入选项编号:" num
 #echo "您的选择是:" $num
 
-if [ $num -eq '1' ];then
-  if [ ! -d "load" ]; then
-    sudo mkdir load
-  fi
-  cd load
-  if [ ! -f "menu_load.sh" ]; then
-    sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/load/menu_load.sh >> /dev/null 2>&1
-  fi
-  source ./menu_load.sh
-elif [ $num -eq '2' ];then
-  cd gc
-  source ./menu_gc.sh
-elif [ $num -eq '3' ];then
-  if [ ! -d "swap" ]; then
-    sudo mkdir swap
-  fi
-  cd swap
-  if [ ! -f "menu_swap.sh" ]; then
-    sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/swap/menu_swap.sh >> /dev/null 2>&1
-  else
-    cd swap
-  fi
-  source ./menu_swap.sh
-
-elif [ $num -eq '4' ];then
-  echo "敬请期待..."
-elif [ $num -eq '5' ];then
-  if [ ! -d "tools" ]; then
-    sudo mkdir tools
-  fi
-  cd tools
-  source ./menu_tools.sh
-elif [ $num -eq '0' ];then
+if [ $num -eq '0' ];then
   echo "Goodbye"
+  exit
+elif [ $num -eq '1' ];then
+  mod="load"
+elif [ $num -eq '2' ];then
+  mod="gc"
+elif [ $num -eq '3' ];then
+  mod="swap"
+elif [ $num -eq '4' ];then
+  mod="jvm"
+elif [ $num -eq '5' ];then
+  mod="tools"
 fi
+
+if [ ! -d "$mod" ]; then
+  sudo mkdir $mod
+fi
+cd $mod
+if [ ! -f "menu_$mod.sh" ]; then
+  sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/$mod/menu_$mod.sh >> /dev/null 2>&1
+else
+  cd $mod
+fi
+source ./menu_$mod.sh
