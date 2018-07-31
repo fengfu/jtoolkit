@@ -2,8 +2,8 @@
 # Swap工具箱入口
 # @author: qufengfu@gmail.com
 
-echo ">>>>>>>>>>SWAP工具箱<<<<<<<<<<"
 echo ""
+echo ">>>>>>>>>>SWAP工具箱<<<<<<<<<<"
 echo "1.统计各进程Swap使用情况"
 echo "2.关闭Swap"
 echo "0.返回上级菜单"

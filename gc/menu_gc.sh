@@ -2,8 +2,8 @@
 # GC工具箱入口
 # @author: qufengfu@gmail.com
 
-echo ">>>>>>>>>>GC工具箱<<<<<<<<<<"
 echo ""
+echo ">>>>>>>>>>GC工具箱<<<<<<<<<<"
 echo "1.FullGC时间久"
 echo "2.FullGC不断"
 echo "3.FullGC频繁"
