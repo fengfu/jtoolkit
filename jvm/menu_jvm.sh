@@ -40,7 +40,15 @@ elif [ $num -eq '1' ];then
   vm_line=`sudo -u $user jcmd $pid VM.command_line|grep jvm_args`
 
   #获取VM.version
-  vm_version=`sudo -u $user jcmd $pid VM.option|grep JDK`
+  vm_version=`sudo -u $user jcmd $pid VM.version|grep JDK|awk '{print $2}'`
+
+  idx=expr index $vm_line "-XX:+DisableExplicitGC"
+  result=""
+  if [[ idx -gt '0' ]]; then
+    result=$result:"请将DisableExplicitGC参数替换为ExplicitGCInvokesConcurrent\n"
+  fi
+
+  echo $result
 
   #在当前进程执行
   source ./menu_swap.sh
