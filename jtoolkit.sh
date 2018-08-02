@@ -20,8 +20,13 @@ echo "5.工具安装"
 echo "0.退出"
 echo ""
 
-#在/home/q目录下创建jtoolkit目录
-cd /home/q
+#默认父目录为/home/q
+home="/home/q"
+if [ ! -d $home ]; then
+  home="/usr/local"
+fi
+cd $home
+#在指定的home目录下创建jtoolkit目录
 if [ ! -d "jtoolkit" ]; then
   sudo mkdir jtoolkit
 fi
