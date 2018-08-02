@@ -12,6 +12,7 @@ read -p "请输入:" num
 
 if [ $num -eq '1' ];then
   if [ ! -f "show_swap_processes.sh" ]; then
+    echo "正在下载show_swap_processes.sh......"
     sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/swap/show_swap_processes.sh >> /dev/null 2>&1
   fi
   echo "执行show_swap_processes.sh..."

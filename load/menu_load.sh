@@ -28,6 +28,7 @@ if [ $num -eq '0' ];then
 elif [ $num -eq '1' ];then
   #如果文件不存在，先下载文件
   if [ ! -f "show_busy_threads_with_percent.sh" ]; then
+    echo "正在下载show_busy_threads_with_percent.sh......"
     sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/load/show_busy_threads_with_percent.sh >> /dev/null 2>&1
     sudo chmod +x show_busy_threads_with_percent.sh >> /dev/null 2>&1
   fi
@@ -53,6 +54,7 @@ elif [ $num -eq '2' ];then
   group=`id -gn $user`
 
   if [ ! -d "vjtop" ]; then
+    echo "正在下载vjtop......"
     sudo wget --no-check-certificate http://repo1.maven.org/maven2/com/vip/vjtools/vjtop/1.0.1/vjtop-1.0.1.zip >> /dev/null 2>&1
     sudo unzip vjtop-1.0.1.zip >> /dev/null 2>&1
     sudo rm -f vjtop-1.0.1.zip >> /dev/null 2>&1
@@ -79,6 +81,7 @@ elif [ $num -eq '3' ];then
   user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
 
   if [ ! -d "async-profiler" ]; then
+    echo "正在下载async-profiler......"
     sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
     sudo mkdir async-profiler
     sudo tar -xvf async-profiler-1.4-linux-x64.tar.gz -C async-profiler >> /dev/null 2>&1
@@ -113,6 +116,7 @@ elif [ $num -eq '4' ];then
   user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
 
   if [ ! -d "async-profiler" ]; then
+    echo "正在下载async-profiler......"
     sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
     sudo mkdir async-profiler
     sudo tar -xvf async-profiler-1.4-linux-x64.tar.gz -C async-profiler >> /dev/null 2>&1

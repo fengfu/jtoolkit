@@ -23,6 +23,10 @@ if [[ $num -eq '0' ]]; then
   cd ..
   source ./jtoolkit.sh
 elif [ $num -eq '1' ];then
+  if [ ! -f "jvm_option_check.sh" ]; then
+    echo "正在下载jvm_option_check.sh......"
+    sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/jvm/jvm_option_check.sh >> /dev/null 2>&1
+  fi
   sh jvm_option_check.sh
 
   #在当前进程执行
