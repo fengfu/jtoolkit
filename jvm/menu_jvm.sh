@@ -23,32 +23,7 @@ if [[ $num -eq '0' ]]; then
   cd ..
   source ./jtoolkit.sh
 elif [ $num -eq '1' ];then
-  read -p "请输入PID或进程路径关键字:" process
-
-  is_num=`is_number $process`
-  if [[ $is_num -eq 'false' ]]; then
-    #根据进程关键字获取pid
-    pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
-  else
-    pid=process
-  fi
-
-  #获取启动进程的用户名
-  user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
-
-  #获取VM.options
-  vm_line=`sudo -u $user jcmd $pid VM.command_line|grep jvm_args`
-
-  #获取VM.version
-  vm_version=`sudo -u $user jcmd $pid VM.version|grep JDK|awk '{print $2}'`
-
-  #idx=`expr index $vm_line "-XX:+DisableExplicitGC"`
-  result=""
-  if [[ $vm_line = *"DisableExplicitGC"* ]]; then
-    result="$result\n请将DisableExplicitGC参数替换为ExplicitGCInvokesConcurrent\n"
-  fi
-
-  printf $result
+  sh jvm_option_check.sh
 
   #在当前进程执行
   source ./menu_jvm.sh
