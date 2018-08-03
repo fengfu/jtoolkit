@@ -132,7 +132,7 @@ elif [ $num -eq '4' ];then
   sudo ./profiler.sh -d 600 -o jfr -f $fname $pid
 
   if [ -f "/tmp/hsperfdata_$user/$fname" ]; then
-    echo "JFR文件已生成,路径为:/tmp/hsperfdata_$user/fname"
+    echo "JFR文件已生成,路径为:/tmp/hsperfdata_$user/$fname"
     #TODO:是否使用sz下载？
     echo ""
   fi
