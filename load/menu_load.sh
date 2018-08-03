@@ -97,6 +97,7 @@ elif [ $num -eq '3' ];then
 
   if [ -f "/tmp/hsperfdata_$user/$fname" ]; then
     echo "火焰图文件已生成,路径为:/tmp/hsperfdata_$user/$fname"
+    #TODO:是否使用sz下载？
     echo ""
   fi
   cd ..
@@ -132,6 +133,7 @@ elif [ $num -eq '4' ];then
 
   if [ -f "/tmp/hsperfdata_$user/$fname" ]; then
     echo "JFR文件已生成,路径为:/tmp/hsperfdata_$user/fname"
+    #TODO:是否使用sz下载？
     echo ""
   fi
 
