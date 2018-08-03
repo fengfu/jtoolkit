@@ -35,7 +35,7 @@ ver=${vm_version:0:1}
 #idx=`expr index $vm_line "-XX:+DisableExplicitGC"`
 result="==========JVM参数建议=========="
 if [[ $vm_line = *"-XX:+DisableExplicitGC"* ]]; then
-  result="$result\n请将DisableExplicitGC参数替换为ExplicitGCInvokesConcurrent\n"
+  result="$result\n请将DisableExplicitGC参数替换为ExplicitGCInvokesConcurrent"
 fi
 
 has_permSize='0'
@@ -73,10 +73,10 @@ meta_result=`echo "$meta_u < 40"|bc -lq`
 #perm/metaSpace使用率低于40%,检查是否显示设置了permSize/metaspaceSize
 if [[ $meta_result -eq '1' ]]; then
   if [[ $has_permSize -eq '1' ]]; then
-    result="$result\nPerm区使用率低于40%,建议调小Perm区大小"
+    result="$result\nPerm区使用率低于40%%,建议调小Perm区大小"
   fi
   if [[ $has_MetaSpaceSize -eq '1' ]]; then
-    result="$result\nMetaSpace使用率低于40%,建议调小MetaSpace大小"
+    result="$result\nMetaSpace使用率低于40%%,建议调小MetaSpace大小"
   fi
 fi
 
@@ -101,5 +101,5 @@ if [[ $fgc -gt '0' ]]; then
   fi
 fi
 
-result="$result\n\n"
+result="$result\n===============================\n"
 printf $result
