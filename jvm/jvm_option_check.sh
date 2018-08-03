@@ -35,21 +35,26 @@ ver=${vm_version:0:1}
 #idx=`expr index $vm_line "-XX:+DisableExplicitGC"`
 result="==========JVM参数建议=========="
 if [[ $vm_line = *"-XX:+DisableExplicitGC"* ]]; then
-  result="$result请将DisableExplicitGC参数替换为ExplicitGCInvokesConcurrent\n"
+  result="$result\n请将DisableExplicitGC参数替换为ExplicitGCInvokesConcurrent\n"
 fi
 
 has_permSize='0'
-has_maxPermSize='0'
+has_MetaSpaceSize='0'
+
+if [[ $vm_line = *"-XX:PermSize"* ]]; then
+  has_permSize='1'
+fi
+if [[ $vm_line = *"-XX:MetaspaceSize"* ]]; then
+  has_MetaSpaceSize='1'
+fi
 
 #JDK 1.8及以上参数有效性检查
 if [[ $ver -ge '8' ]]; then
-  if [[ $vm_line = *"-XX:PermSize"* ]]; then
+  if [[ $has_permSize -eq '1' ]]; then
     result="$result\nPermSize已废弃,请替换为MetaspaceSize"
-    has_permSize='1'
   fi
   if [[ $vm_line = *"-XX:MaxPermSize"* ]]; then
     result="$result\nMaxPermSize已废弃,请替换为MaxMetaspaceSize"
-    has_maxPermSize='1'
   fi
 fi
 
@@ -70,7 +75,7 @@ if [[ $meta_result -eq '1' ]]; then
   if [[ $has_permSize -eq '1' ]]; then
     result="$result\nPerm区使用率低于40%,建议调小Perm区大小"
   fi
-  if [[ $vm_line = *"-XX:MetaspaceSize"* ]]; then
+  if [[ $has_MetaSpaceSize -eq '1' ]]; then
     result="$result\nMetaSpace使用率低于40%,建议调小MetaSpace大小"
   fi
 fi
