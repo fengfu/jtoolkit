@@ -34,7 +34,7 @@ if [ $num -eq '1' ];then
   #获取启动进程的用户名
   user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
 
-  echo "sudo -u $user jmap -heap $pid"
+  echo "执行命令:sudo -u $user jmap -heap $pid"
   sudo -u $user jmap -heap $pid
 
   #在当前进程执行
@@ -53,7 +53,7 @@ elif [ $num -eq '2' ];then
   #获取启动进程的用户名
   user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
 
-  echo "sudo -u $user jmap -histo:live $pid"
+  echo "执行命令:sudo -u $user jmap -histo:live $pid"
   sudo -u $user jmap -histo:live $pid
 
   source ./menu_memory.sh
@@ -74,7 +74,7 @@ elif [ $num -eq '3' ];then
   #获取启动进程的用户名
   user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
 
-  echo "正在执行sudo -u $user jmap -F -dump:format=b,file=$fname $pid导出堆内存..."
+  echo "执行命令:sudo -u $user jmap -F -dump:format=b,file=$fname $pid导出堆内存..."
   sudo -u $user jmap -F -dump:format=b,file=$fname $pid
 
   if [ -f "$fname" ]; then

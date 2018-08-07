@@ -62,6 +62,7 @@ if [ ! -d "$mod" ]; then
 fi
 cd $mod
 if [ ! -f "menu_$mod.sh" ]; then
+  echo "正在下载$mod/menu_$mod.sh"
   sudo wget --no-check-certificate --no-cache https://raw.githubusercontent.com/fengfu/jtoolkit/master/$mod/menu_$mod.sh >> /dev/null 2>&1
 else
   cd $mod
