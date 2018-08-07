@@ -12,10 +12,10 @@ echo "   \|________|     \|__|   \|_______| \|_______| \|_______| \|__| \|__| \|
 echo "                                                                                         "
 
 echo "欢迎使用JToolkit,本工具箱提供以下问题的排查辅助:"
-echo "1.Load高"
-echo "2.GC问题"
-echo "3.Swap高"
-echo "4.内存分析"
+echo "1.CPU相关"
+echo "2.GC相关"
+echo "3.Swap相关"
+echo "4.内存相关"
 echo "5.JVM参数"
 echo "6.工具安装"
 echo "q.退出"
@@ -64,7 +64,5 @@ cd $mod
 if [ ! -f "menu_$mod.sh" ]; then
   echo "正在下载$mod/menu_$mod.sh"
   sudo wget --no-check-certificate --no-cache https://raw.githubusercontent.com/fengfu/jtoolkit/master/$mod/menu_$mod.sh >> /dev/null 2>&1
-else
-  cd $mod
 fi
 source ./menu_$mod.sh
