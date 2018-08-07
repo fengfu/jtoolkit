@@ -33,7 +33,7 @@ if [ ! -d "jtoolkit" ]; then
 fi
 cd jtoolkit
 if [ ! -f "jtoolkit.sh" ]; then
-  sudo wget --no-check-certificate –no-cache https://raw.githubusercontent.com/fengfu/jtoolkit/master/jtoolkit.sh >> /dev/null 2>&1
+  sudo wget --no-check-certificate -–no-cache https://raw.githubusercontent.com/fengfu/jtoolkit/master/jtoolkit.sh >> /dev/null 2>&1
   sudo chmod +x jtoolkit.sh >> /dev/null 2>&1
 fi
 
@@ -62,7 +62,7 @@ if [ ! -d "$mod" ]; then
 fi
 cd $mod
 if [ ! -f "menu_$mod.sh" ]; then
-  sudo wget --no-check-certificate –no-cache https://raw.githubusercontent.com/fengfu/jtoolkit/master/$mod/menu_$mod.sh >> /dev/null 2>&1
+  sudo wget --no-check-certificate -–no-cache https://raw.githubusercontent.com/fengfu/jtoolkit/master/$mod/menu_$mod.sh >> /dev/null 2>&1
 else
   cd $mod
 fi
