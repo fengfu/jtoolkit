@@ -83,6 +83,7 @@ elif [ $num -eq '3' ];then
       echo "堆内存已导出,路径为:$fname.gz"
     else
       echo "堆内存已导出,路径为:$fname"
+    fi
   fi
 
   source ./menu_memory.sh
