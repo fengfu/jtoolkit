@@ -5,7 +5,7 @@
 echo ""
 echo ">>>>>>>>>>内存工具箱<<<<<<<<<<"
 echo "1.堆内存使用情况"
-echo "2.对象实例统计"
+echo "2.对象实例统计Top10"
 echo "3.dump堆内存"
 echo "0.返回上级菜单"
 echo "q.退出"
@@ -60,7 +60,7 @@ elif [ $num -eq '2' ];then
   user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
 
   echo "执行命令:sudo -u $user jmap -histo:live $pid"
-  sudo -u $user jmap -histo:live $pid
+  sudo -u $user jmap -histo:live $pid | awk 'NR<14 {print $0}'
 
   source ./menu_memory.sh
 elif [ $num -eq '3' ];then
