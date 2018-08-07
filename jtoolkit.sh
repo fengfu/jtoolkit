@@ -15,8 +15,9 @@ echo "欢迎使用JToolkit,本工具箱提供以下问题的排查辅助:"
 echo "1.Load高"
 echo "2.GC问题"
 echo "3.Swap高"
-echo "4.JVM参数"
-echo "5.工具安装"
+echo "4.内存分析"
+echo "5.JVM参数"
+echo "6.工具安装"
 echo "0.退出"
 echo ""
 
@@ -49,8 +50,10 @@ elif [ $num -eq '2' ];then
 elif [ $num -eq '3' ];then
   mod="swap"
 elif [ $num -eq '4' ];then
-  mod="jvm"
+  mod="memory"
 elif [ $num -eq '5' ];then
+  mod="jvm"
+elif [ $num -eq '6' ];then
   mod="tools"
 fi
 
