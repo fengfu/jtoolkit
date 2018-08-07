@@ -8,6 +8,7 @@ echo "1.堆内存使用情况"
 echo "2.对象实例统计"
 echo "3.dump堆内存"
 echo "0.返回上级菜单"
+echo "q.退出"
 echo ""
 read -p "请输入:" num
 
@@ -20,7 +21,12 @@ is_number(){
   fi
 }
 
-if [ $num -eq '1' ];then
+if [[ $num = 'q' ]]; then
+  echo "Goodbye"
+elif [[ $num -eq '0' ]]; then
+  cd ..
+  source ./jtoolkit.sh
+elif [ $num -eq '1' ];then
   read -p "请输入PID或进程路径关键字:" process
 
   is_num=`is_number $process`
@@ -87,7 +93,4 @@ elif [ $num -eq '3' ];then
   fi
 
   source ./menu_memory.sh
-elif [[ $num -eq '0' ]]; then
-  cd ..
-  source ./jtoolkit.sh
 fi

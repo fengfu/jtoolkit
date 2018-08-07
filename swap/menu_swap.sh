@@ -7,10 +7,16 @@ echo ">>>>>>>>>>SWAP工具箱<<<<<<<<<<"
 echo "1.统计各进程Swap使用情况"
 echo "2.关闭Swap"
 echo "0.返回上级菜单"
+echo "q.退出"
 echo ""
 read -p "请输入:" num
 
-if [ $num -eq '1' ];then
+if [[ $num = 'q' ]]; then
+  echo "Goodbye"
+elif [[ $num -eq '0' ]]; then
+  cd ..
+  source ./jtoolkit.sh
+elif [ $num -eq '1' ];then
   if [ ! -f "show_swap_processes.sh" ]; then
     echo "正在下载show_swap_processes.sh......"
     sudo wget --no-check-certificate --no-cache https://raw.githubusercontent.com/fengfu/jtoolkit/master/swap/show_swap_processes.sh >> /dev/null 2>&1
@@ -27,7 +33,4 @@ elif [ $num -eq '2' ];then
     sudo swapoff $fname
   fi
   source ./menu_load.sh
-elif [[ $num -eq '0' ]]; then
-  cd ..
-  source ./jtoolkit.sh
 fi

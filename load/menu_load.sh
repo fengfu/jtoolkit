@@ -9,6 +9,7 @@ echo "2.线程CPU时间占比排行(VJTop)"
 echo "3.生成火焰图(10分钟)"
 echo "4.生成飞行记录JFR(10分钟)"
 echo "0.返回上级菜单"
+echo "q.退出"
 echo ""
 
 read -p "请输入功能序号:" num
@@ -22,7 +23,9 @@ is_number(){
   fi
 }
 
-if [ $num -eq '0' ];then
+if [[ $num = 'q' ]]; then
+  echo "Goodbye"
+elif [ $num -eq '0' ];then
   cd ..
   source ./jtoolkit.sh
 elif [ $num -eq '1' ];then

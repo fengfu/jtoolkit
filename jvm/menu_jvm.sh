@@ -7,6 +7,7 @@ echo ">>>>>>>>>>JVM工具箱<<<<<<<<<<"
 echo "1.JVM参数检查"
 echo "2.JVM参数建议"
 echo "0.返回上级菜单"
+echo "q.退出"
 echo ""
 read -p "请输入:" num
 
@@ -19,7 +20,9 @@ is_number(){
   fi
 }
 
-if [[ $num -eq '0' ]]; then
+if [[ $num = 'q' ]]; then
+  echo "Goodbye"
+elif [[ $num -eq '0' ]]; then
   cd ..
   source ./jtoolkit.sh
 elif [ $num -eq '1' ];then

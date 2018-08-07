@@ -18,7 +18,7 @@ echo "3.Swap高"
 echo "4.内存分析"
 echo "5.JVM参数"
 echo "6.工具安装"
-echo "0.退出"
+echo "q.退出"
 echo ""
 
 #默认父目录为/home/q
@@ -40,7 +40,7 @@ fi
 read -p "请输入选项编号:" num
 #echo "您的选择是:" $num
 
-if [ $num -eq '0' ];then
+if [ $num = 'q' ];then
   echo "Goodbye"
   exit
 elif [ $num -eq '1' ];then
