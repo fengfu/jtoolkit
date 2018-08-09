@@ -29,6 +29,7 @@ elif [ $num -eq '0' ];then
   cd ..
   source ./jtoolkit.sh
 elif [ $num -eq '1' ];then
+
   #如果文件不存在，先下载文件
   if [ ! -f "show_busy_threads_with_percent.sh" ]; then
     echo "正在下载show_busy_threads_with_percent.sh......"
@@ -36,7 +37,21 @@ elif [ $num -eq '1' ];then
     sudo chmod +x show_busy_threads_with_percent.sh >> /dev/null 2>&1
   fi
 
-  sudo ./show_busy_threads_with_percent.sh
+  read -p "请输入PID或进程路径关键字(不输入则从所有Java进程中找出最消耗CPU的线程):" process
+
+  if [[ ! -n "$process" ]]; then
+    sudo ./show_busy_threads_with_percent.sh
+  else
+    is_num=`is_number $process`
+    if [[ $is_num -eq 'false' ]]; then
+      #根据进程关键字获取pid
+      pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
+    else
+      pid=process
+    fi
+
+    sudo ./show_busy_threads_with_percent.sh -p $pid
+  fi
 
   source ./menu_load.sh
 elif [ $num -eq '2' ];then
