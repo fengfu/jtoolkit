@@ -1,5 +1,5 @@
-# jtoolkit
-Java问题排查工具集，通过集成各种第三方好用的工具来帮助我们快速定位问题
+# JToolkit #
+JToolkit是一个Java问题排查的工具集，通过集成各种Linux命令、Shell脚本、Java命令，以及各种第三方好用的工具，通过傻瓜式的界面和方便快捷的操作来帮助我们快速定位问题。目前已经集成了唯品会的 [VjTop](https://github.com/vipshop/vjtools/tree/master/vjtop)、[Async-Profiler](https://github.com/jvm-profiling-tools/async-profiler)。
 
 # 包含的功能 #
 ## CPU相关 ##
