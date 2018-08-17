@@ -24,9 +24,10 @@ JToolkit是一个Java问题排查的工具集，通过集成各种Linux命令、
 1. JVM参数检查
 2. JVM参数建议
 
-### 使用说明 ###
+## 使用说明 ##
 
 在有写入权限的目录下执行以下脚本即可：
 ```
 mkdir jtoolkit && cd jtoolkit && wget --no-cache --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/jtoolkit.sh && source jtoolkit.sh
 ```
+另外，某些脚本需要sudo权限，所以请确保您有sudo权限。
