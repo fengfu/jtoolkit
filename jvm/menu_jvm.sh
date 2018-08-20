@@ -5,7 +5,7 @@
 echo ""
 echo ">>>>>>>>>>JVM工具箱<<<<<<<<<<"
 echo "1.JVM参数检查"
-echo "2.JVM参数建议"
+echo "2.JVM参数生成"
 echo "0.返回上级菜单"
 echo "q.退出"
 echo ""
