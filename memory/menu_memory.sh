@@ -65,6 +65,11 @@ elif [ $num -eq '2' ];then
   source ./menu_memory.sh
 elif [ $num -eq '3' ];then
 
+  read -p "此功能会导致Java应用长时间停顿,请确保应用已处于下线状态.是否继续？[y/n]" yesno
+  if [[ $yesno -eq 'n' ]]; then
+    return 0
+  fi
+
   read -p "请输入PID或进程路径关键字:" process
 
   is_num=`is_number $process`
