@@ -91,6 +91,16 @@ if [[ $meta_result -eq '1' ]]; then
   fi
 fi
 
+#G1中xmn的检查
+if [[ $vm_line = *"-XX:+UseG1GC"* ]]; then
+  if [[ $vm_line = *"-Xmn"* ]]; then
+    result="$result\n开启了G1的情况下请去掉-Xmn参数,因为G1会自动调整Young/Old区的大小"
+  fi
+  if [[ $vm_line = *"-XX:NewSize"* ]]; then
+    result="$result\n开启了G1的情况下请去掉-XX:NewSize参数,因为G1会自动调整Young/Old区的大小"
+  fi
+fi
+
 if [[ $ver -ge '8' ]]; then
   ygc=${gc_stat[6]}
   ygct=${gc_stat[7]}
