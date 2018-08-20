@@ -72,4 +72,4 @@ java_opts="$java_opts $extra_opts"
 java_opts="$java_opts -verbose:gc -XX:+PrintGCDateStamps -XX:+PrintGCDetails -Xloggc:$CATALINA_BASE/logs/gc.log"
 
 echo "您的服务器内核为$bits位,内存${mem_g}G,JDK版本:${vm_version},建议JVM参数:"
-printf $result
+printf java_opts
