@@ -82,9 +82,9 @@ elif [ $num -eq '2' ];then
     fi
     cd vjtop
     sudo -u $user ./vjtop.sh $pid
+    cd ..
   fi
 
-  cd ..
   source ./menu_load.sh
 elif [ $num -eq '3' ];then
   read -p "请输入PID或进程路径关键字:" process
@@ -121,8 +121,9 @@ elif [ $num -eq '3' ];then
       #TODO:是否使用sz下载？
       echo ""
     fi
+    cd ..
   fi
-  cd ..
+
   source ./menu_load.sh
 elif [ $num -eq '4' ];then
   read -p "请输入PID或进程路径关键字:" process
