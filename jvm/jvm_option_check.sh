@@ -12,6 +12,9 @@ is_number(){
 }
 
 read -p "请输入PID或进程路径关键字:" process
+if [[ ! -n "$process" ]]; then
+  return 0
+fi
 
 is_num=`is_number $process`
 if [[ $is_num -eq 'false' ]]; then

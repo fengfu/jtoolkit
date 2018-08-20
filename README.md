@@ -35,3 +35,6 @@ mkdir jtoolkit && cd jtoolkit && wget --no-cache --no-check-certificate https://
 使用SecureCRT的同学可以下载[run_jtoolkit.py](http://fengfu.io/attach/run_jtoolkit.py)文件到自己的机器上，通过[Script]-[Run]功能运行此下载的文件。
 
 另外，某些脚本需要sudo权限，所以请确保您在运行的服务器上已经申请到了sudo权限。
+
+# 反馈 #
+欢迎移步https://github.com/fengfu/jtoolkit/issues 拍砖~

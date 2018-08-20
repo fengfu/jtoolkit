@@ -29,38 +29,42 @@ elif [[ $num -eq '0' ]]; then
 elif [ $num -eq '1' ];then
   read -p "请输入PID或进程路径关键字:" process
 
-  is_num=`is_number $process`
-  if [[ $is_num -eq 'false' ]]; then
-    #根据进程关键字获取pid
-    pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
-  else
-    pid=process
+  if [[ -n "$process" ]]; then
+    is_num=`is_number $process`
+    if [[ $is_num -eq 'false' ]]; then
+      #根据进程关键字获取pid
+      pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
+    else
+      pid=process
+    fi
+
+    #获取启动进程的用户名
+    user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
+
+    echo "执行命令:sudo -u $user jmap -heap $pid"
+    sudo -u $user jmap -heap $pid
   fi
-
-  #获取启动进程的用户名
-  user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
-
-  echo "执行命令:sudo -u $user jmap -heap $pid"
-  sudo -u $user jmap -heap $pid
 
   #在当前进程执行
   source ./menu_memory.sh
 elif [ $num -eq '2' ];then
   read -p "请输入PID或进程路径关键字:" process
 
-  is_num=`is_number $process`
-  if [[ $is_num -eq 'false' ]]; then
-    #根据进程关键字获取pid
-    pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
-  else
-    pid=process
+  if [[ -n "$process" ]]; then
+    is_num=`is_number $process`
+    if [[ $is_num -eq 'false' ]]; then
+      #根据进程关键字获取pid
+      pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
+    else
+      pid=process
+    fi
+
+    #获取启动进程的用户名
+    user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
+
+    echo "执行命令:sudo -u $user jmap -histo:live $pid"
+    sudo -u $user jmap -histo:live $pid | awk 'NR<14 {print $0}'
   fi
-
-  #获取启动进程的用户名
-  user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
-
-  echo "执行命令:sudo -u $user jmap -histo:live $pid"
-  sudo -u $user jmap -histo:live $pid | awk 'NR<14 {print $0}'
 
   source ./menu_memory.sh
 elif [ $num -eq '3' ];then
