@@ -160,7 +160,8 @@ elif [ $num -eq '4' ];then
       #TODO:是否使用sz下载？
       echo ""
     fi
+    cd ..
   fi
-  cd ..
+
   source ./menu_load.sh
 fi
