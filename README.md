@@ -22,7 +22,7 @@ JToolkit是一个Java问题排查的工具集，通过集成各种Linux命令、
 3. dump堆内存
 ## JVM参数 ##
 1. JVM参数检查
-2. JVM参数建议
+2. JVM参数生成
 
 ## 使用说明 ##
 
