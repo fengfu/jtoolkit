@@ -30,8 +30,11 @@ java_opts=""
 
 #xms,xms
 xmx=""
+use_g1=""
+extra_opts=""
 if [[ $mem_g -gt '8' ]]; then
   xmx=`echo "scale=0; $mem_g*2/3*1024"|bc -l`
+  use_g1="1"
 elif [[ $mem_g -eq '8' ]]; then
   xmx="5440"
 elif [[ $mem_g -eq '4' ]]; then
@@ -46,17 +49,22 @@ xmx_opt="-Xmx${xmx}m"
 
 perm_size_opt=""
 maxperm_size_opt=""
-extra_opts=""
 xmn_opt=""
+g1_opt="-XX:+UseG1GC"
 if [[ $ver_major -le '7' ]]; then
   perm_size_opt="-XX:PermSize=128m"
   maxperm_size_opt="-XX:MaxPermSize=256m"
   extra_opts="$extra_opts -XX:+PrintGCCause"
+  xmn=`echo "scale=0; $xmx*1/3"|bc -l`
+  xmn_opt="-Xmn${xmn}m"
 else
   perm_size_opt="-XX:MetaspaceSize=128m"
   maxperm_size_opt="-XX:MaxMetaspaceSize=256m"
-  xmn="echo "scale=0; $xmx*1/3*1024"|bc -l"
-  xmn_opt="-Xmn${xmn}m"
+  if [[ !$use_g1 -eq '1' ]]; then
+    xmn=`echo "scale=0; $xmx*1/3"|bc -l`
+    xmn_opt="-Xmn${xmn}m"
+    extra_opts = "$extra_opts $g1g1_opt"
+  fi
 fi
 
 java_opts="$xms_opt $xmx_opt $xmn_opt $perm_size_opt $maxperm_size_opt"
@@ -69,7 +77,7 @@ fi
 java_opts="$java_opts $extra_opts"
 
 #gc
-java_opts="$java_opts -verbose:gc -XX:+PrintGCDateStamps -XX:+PrintGCDetails -Xloggc:$CATALINA_BASE/logs/gc.log"
+java_opts="$java_opts -verbose:gc -XX:+PrintGCDateStamps -XX:+PrintGCDetails -Xloggc:\$CATALINA_BASE/logs/gc.log"
 
-echo "您的服务器内核为$bits位,内存${mem_g}G,JDK版本:${vm_version},建议JVM参数:"
-printf java_opts
+echo "您的服务器内核为$bit位,内存${mem_g}G,JDK版本:${vm_version},建议JVM参数:"
+echo "$java_opts"
