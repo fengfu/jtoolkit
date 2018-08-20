@@ -35,5 +35,8 @@ elif [ $num -eq '1' ];then
   #在当前进程执行
   source ./menu_jvm.sh
 elif [ $num -eq '2' ];then
-  echo "关闭Swap"
+  sh jvm_option_generate.sh
+
+  #在当前进程执行
+  source ./menu_jvm.sh
 fi

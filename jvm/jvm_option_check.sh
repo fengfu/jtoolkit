@@ -38,6 +38,14 @@ if [[ $vm_line = *"-XX:+DisableExplicitGC"* ]]; then
   result="$result\n请将DisableExplicitGC参数替换为ExplicitGCInvokesConcurrent"
 fi
 
+if [[ $vm_line = *"-XX:NativeMemoryTracking=summary"* ]]; then
+  result="$result\n开启NativeMemoryTracking会导致JVM性能有5~10%的下降,建议关闭.详情见:https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr007.html"
+fi
+
+if [[ $vm_line = *"-XX:NativeMemoryTracking=detail"* ]]; then
+  result="$result\n开启NativeMemoryTracking会导致JVM性能有5~10%的下降,建议关闭.详情见:https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr007.html"
+fi
+
 has_permSize='0'
 has_MetaSpaceSize='0'
 
