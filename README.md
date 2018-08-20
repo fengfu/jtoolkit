@@ -8,19 +8,23 @@ JToolkit是一个Java问题排查的工具集，通过集成各种Linux命令、
 2. 线程CPU时间占比排行(VJTop)
 3. 生成火焰图(10分钟)
 4. 生成飞行记录JFR(10分钟)
+
 ## 2.GC问题分析 ##
 1. FullGC时间久
 2. FullGC不断
 3. FullGC频繁
 4. YoungGC时间久
 5. 远程分析gc.log
+
 ## 3.Swap问题 ##
 1. 统计各进程Swap使用情况
 2. 关闭Swap
+
 ## 4.内存问题 ##
 1. 堆内存使用情况
 2. 对象实例统计Top10
 3. dump堆内存
+
 ## 5.JVM参数 ##
 1. JVM参数检查
 2. JVM参数生成
