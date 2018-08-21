@@ -13,7 +13,7 @@ echo "                                                                          
 
 echo "欢迎使用JToolkit,本工具箱提供以下问题的排查辅助:"
 echo "1.CPU相关"
-echo "2.GC相关"
+echo "2.GC相关(开发中)"
 echo "3.Swap相关"
 echo "4.内存相关"
 echo "5.JVM参数"

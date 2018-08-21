@@ -22,12 +22,17 @@ elif [[ $num -eq '0' ]]; then
   source ./jtoolkit.sh
 elif [ $num -eq '1' ];then
   echo "开发中,敬请期待......"
+  source ./jtoolkit.sh
 elif [ $num -eq '2' ];then
   echo "开发中,敬请期待......"
+  source ./jtoolkit.sh
 elif [ $num -eq '3' ];then
   echo "开发中,敬请期待......"
+  source ./jtoolkit.sh
 elif [ $num -eq '4' ];then
   echo "开发中,敬请期待......"
+  source ./jtoolkit.sh
 elif [ $num -eq '5' ];then
   echo "开发中,敬请期待......"
+  source ./jtoolkit.sh
 fi
