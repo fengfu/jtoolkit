@@ -30,10 +30,20 @@ user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
 #获取VM.options
 vm_line=`sudo -u $user jcmd $pid VM.command_line|grep jvm_args`
 
-#获取VM.version
-vm_version=`sudo -u $user jcmd $pid VM.version|grep JDK|awk '{print $2}'`
+# #获取VM.version
+# vm_version=`sudo -u $user jcmd $pid VM.version|grep JDK|awk '{print $2}'`
+# #获取大版本
+# ver=${vm_version:0:1}
+
+#获取JVM version
+vm_version=`java -version 2>&1 | awk -F '"' '/version/ {print $2}'`
 #获取大版本
-ver=${vm_version:0:1}
+vers=(${vm_version//./ })
+
+ver_major=${vers[1]}
+ver_minors=(${vers[2]}//_/ })
+ver_minor=${ver_minors[0]}
+ver_update=${ver_minors[1]}
 
 #idx=`expr index $vm_line "-XX:+DisableExplicitGC"`
 result="==========JVM参数建议=========="
@@ -60,7 +70,7 @@ if [[ $vm_line = *"-XX:MetaspaceSize"* ]]; then
 fi
 
 #JDK 1.8及以上参数有效性检查
-if [[ $ver -ge '8' ]]; then
+if [[ $ver_major -ge '8' ]]; then
   if [[ $has_permSize -eq '1' ]]; then
     result="$result\nPermSize已废弃,请替换为MetaspaceSize"
   fi
@@ -91,17 +101,28 @@ if [[ $meta_result -eq '1' ]]; then
   fi
 fi
 
-#G1中xmn的检查
+#G1相关参数检查
 if [[ $vm_line = *"-XX:+UseG1GC"* ]]; then
+  #G1 MaxGCPauseMillis
+  if [[ $vm_line = *"-XX:MaxGCPauseMillis"* ]]; then
+    result="$result\n开启了G1的情况下,建议显示设置MaxGCPauseMillis"
+  fi
+  #G1中xmn的检查
   if [[ $vm_line = *"-Xmn"* ]]; then
     result="$result\n开启了G1的情况下请去掉-Xmn参数,因为G1会自动调整Young/Old区的大小"
   fi
   if [[ $vm_line = *"-XX:NewSize"* ]]; then
     result="$result\n开启了G1的情况下请去掉-XX:NewSize参数,因为G1会自动调整Young/Old区的大小"
   fi
+
+  if [[ $ver_major -le '7' ]]; then
+    result="$result\n您使用了G1,为保证垃圾回收的性能,建议将JDK版本升级到JDK8u40之后"
+  elif [[ $ver_update -lt '40' ]]; then
+    result="$result\n您使用了G1,为保证垃圾回收的性能,建议将JDK版本升级到JDK8u40之后"
+  fi
 fi
 
-if [[ $ver -ge '8' ]]; then
+if [[ $ver_major -ge '8' ]]; then
   ygc=${gc_stat[6]}
   ygct=${gc_stat[7]}
   fgc=${gc_stat[8]}
