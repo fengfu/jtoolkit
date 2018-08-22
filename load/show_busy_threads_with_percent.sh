@@ -3,7 +3,7 @@
 # Find out the highest cpu consumed threads of java, and print the stack of these threads.
 #
 # @Usage
-#   $ ./show-busy-java-threads
+#   $ sh show_busy_threads_with_percent.sh
 #
 # @online-doc https://github.com/oldratlee/useful-scripts/blob/master/docs/java.md#-show-busy-java-threads
 # @author Jerry Lee (oldratlee at gmail dot com)
@@ -239,17 +239,18 @@ fi
 # check the existence of jstack command
 ################################################################################
 
-if [ -n "$jstack_path" ]; then
-    [ -f "$jstack_path" ] || die "$jstack_path is NOT found!"
-    [ -x "$jstack_path" ] || die "$jstack_path is NOT executalbe!"
-elif which jstack &> /dev/null; then
-    jstack_path="`which jstack`"
-else
-    [ -n "$JAVA_HOME" ] || die "jstack not found on PATH and No JAVA_HOME setting! Use -s option set jstack path manually."
-    [ -f "$JAVA_HOME/bin/jstack" ] || die "jstack not found on PATH and \$JAVA_HOME/bin/jstack($JAVA_HOME/bin/jstack) file does NOT exists! Use -s option set jstack path manually."
-    [ -x "$JAVA_HOME/bin/jstack" ] || die "jstack not found on PATH and \$JAVA_HOME/bin/jstack($JAVA_HOME/bin/jstack) is NOT executalbe! Use -s option set jstack path manually."
-    jstack_path="$JAVA_HOME/bin/jstack"
-fi
+# if [ -n "$jstack_path" ]; then
+#     [ -f "$jstack_path" ] || die "$jstack_path is NOT found!"
+#     [ -x "$jstack_path" ] || die "$jstack_path is NOT executalbe!"
+# elif which jstack &> /dev/null; then
+#     jstack_path="`which jstack`"
+# else
+#     [ -n "$JAVA_HOME" ] || die "jstack not found on PATH and No JAVA_HOME setting! Use -s option set jstack path manually."
+#     [ -f "$JAVA_HOME/bin/jstack" ] || die "jstack not found on PATH and \$JAVA_HOME/bin/jstack($JAVA_HOME/bin/jstack) file does NOT exists! Use -s option set jstack path manually."
+#     [ -x "$JAVA_HOME/bin/jstack" ] || die "jstack not found on PATH and \$JAVA_HOME/bin/jstack($JAVA_HOME/bin/jstack) is NOT executalbe! Use -s option set jstack path manually."
+#     jstack_path="$JAVA_HOME/bin/jstack"
+# fi
+jstack_path="jstack"
 
 ################################################################################
 # biz logic
