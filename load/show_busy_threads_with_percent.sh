@@ -239,18 +239,17 @@ fi
 # check the existence of jstack command
 ################################################################################
 
-# if [ -n "$jstack_path" ]; then
-#     [ -f "$jstack_path" ] || die "$jstack_path is NOT found!"
-#     [ -x "$jstack_path" ] || die "$jstack_path is NOT executalbe!"
-# elif which jstack &> /dev/null; then
-#     jstack_path="`which jstack`"
-# else
-#     [ -n "$JAVA_HOME" ] || die "jstack not found on PATH and No JAVA_HOME setting! Use -s option set jstack path manually."
-#     [ -f "$JAVA_HOME/bin/jstack" ] || die "jstack not found on PATH and \$JAVA_HOME/bin/jstack($JAVA_HOME/bin/jstack) file does NOT exists! Use -s option set jstack path manually."
-#     [ -x "$JAVA_HOME/bin/jstack" ] || die "jstack not found on PATH and \$JAVA_HOME/bin/jstack($JAVA_HOME/bin/jstack) is NOT executalbe! Use -s option set jstack path manually."
-#     jstack_path="$JAVA_HOME/bin/jstack"
-# fi
-jstack_path="jstack"
+if [ -n "$jstack_path" ]; then
+    [ -f "$jstack_path" ] || die "$jstack_path is NOT found!"
+    [ -x "$jstack_path" ] || die "$jstack_path is NOT executalbe!"
+elif which jstack &> /dev/null; then
+    jstack_path="`which jstack`"
+else
+    [ -n "$JAVA_HOME" ] || die "未找到JAVA_HOME环境变量!"
+    [ -f "$JAVA_HOME/bin/jstack" ] || die "jstack在路径${JAVA_HOME}/bin下不存在! 请确认jstack路径或者使用-s选项设置jstack路径."
+    [ -x "$JAVA_HOME/bin/jstack" ] || die "${JAVA_HOME}/bin/jstack不是可执行文件."
+    jstack_path="$JAVA_HOME/bin/jstack"
+fi
 
 ################################################################################
 # biz logic
