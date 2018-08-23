@@ -15,7 +15,7 @@ echo ""
 read -p "请输入功能序号:" num
 
 is_number(){
-  regex='^[0-9]+$'
+  regex='^[0-9]*$'
   if ! [[ $1 =~ $regex ]] ; then
     echo "false"
   else
@@ -23,7 +23,7 @@ is_number(){
   fi
 }
 
-if [[ $num = 'q' ]]; then
+if [[ $num == 'q' ]]; then
   echo "Goodbye"
 elif [ $num -eq '0' ];then
   cd ..
@@ -43,7 +43,7 @@ elif [ $num -eq '1' ];then
     sudo ./show_busy_threads_with_percent.sh
   else
     is_num=`is_number $process`
-    if [[ $is_num -eq 'false' ]]; then
+    if [[ $is_num == 'false' ]]; then
       #根据进程关键字获取pid
       pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
     else
@@ -59,7 +59,7 @@ elif [ $num -eq '2' ];then
 
   if [[ -n "$process" ]]; then
     is_num=`is_number $process`
-    if [[ $is_num -eq 'false' ]]; then
+    if [[ $is_num == 'false' ]]; then
       #根据进程关键字获取pid
       pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
     else
@@ -94,7 +94,7 @@ elif [ $num -eq '3' ];then
 
     if [[ -n "$process" ]]; then
       is_num=`is_number $process`
-      if [[ $is_num -eq 'false' ]]; then
+      if [[ $is_num == 'false' ]]; then
         #根据进程关键字获取pid
         pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
       else
@@ -111,7 +111,7 @@ elif [ $num -eq '3' ];then
         duration="10"
       else
         is_num=`is_number $duration`
-        if [[ $is_num -eq 'false' ]]; then
+        if [[ $is_num == 'false' ]]; then
           duration="10"
         fi
       fi
@@ -152,7 +152,7 @@ elif [ $num -eq '4' ];then
 
     if [[ -n "$process" ]]; then
       is_num=`is_number $process`
-      if [[ $is_num -eq 'false' ]]; then
+      if [[ $is_num == 'false' ]]; then
         #根据进程关键字获取pid
         pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
       else
@@ -169,7 +169,7 @@ elif [ $num -eq '4' ];then
         duration="10"
       else
         is_num=`is_number $duration`
-        if [[ $is_num -eq 'false' ]]; then
+        if [[ $is_num == 'false' ]]; then
           duration="10"
         fi
       fi
