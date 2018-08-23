@@ -83,9 +83,9 @@ elif [ $num -eq '3' ];then
     #获取启动进程的用户名
     user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
 
-    echo "执行命令:sudo -u $user jmap -histo:live $pid"
+    echo "执行命令:sudo -u $user jmap -histo:live $pid(对象数量小于10将被忽略计算)"
     printf "数量\t\t\t空间\t\t\t尺寸\t\t\t名称\n"
-    sudo -u $user jmap -histo:live $pid | awk 'NR>3 {print $2"\t\t\t"$3"\t\t\t"$3/$2"\t\t\t"$4}'|sort -gr -k3| awk 'NR<21 {print $0}'
+    sudo -u $user jmap -histo:live $pid | awk '(NR>3 && $2>10 && length($4)>0) {print $2"\t\t\t"$3"\t\t\t"$3/$2"\t\t\t"$4}'|sort -gr -k3| awk 'NR<21 {print $0}'
   fi
 
   source ./menu_memory.sh
