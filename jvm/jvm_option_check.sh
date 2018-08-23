@@ -17,7 +17,7 @@ if [[ ! -n "$process" ]]; then
 fi
 
 is_num=`is_number $process`
-if [[ $is_num -eq 'false' ]]; then
+if [[ $is_num == 'false' ]]; then
   #根据进程关键字获取pid
   pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
 else

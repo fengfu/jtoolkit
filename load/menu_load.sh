@@ -88,7 +88,7 @@ elif [ $num -eq '2' ];then
   source ./menu_load.sh
 elif [ $num -eq '3' ];then
   read -p "此功能会小概率导致Java应用Crash,是否继续？[y/n]" yesno
-  if [[ $yesno = 'y' ]]; then
+  if [[ $yesno == 'y' ]]; then
 
     read -p "请输入PID或进程路径关键字:" process
 
@@ -147,7 +147,7 @@ elif [ $num -eq '3' ];then
   source ./menu_load.sh
 elif [ $num -eq '4' ];then
   read -p "此功能会小概率导致Java应用Crash,是否继续？[y/n]" yesno
-  if [[ $yesno = 'y' ]]; then
+  if [[ $yesno == 'y' ]]; then
     read -p "请输入PID或进程路径关键字:" process
 
     if [[ -n "$process" ]]; then

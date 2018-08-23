@@ -40,7 +40,7 @@ fi
 read -p "请输入选项编号:" num
 #echo "您的选择是:" $num
 
-if [ $num = 'q' ];then
+if [ $num == 'q' ];then
   echo "Goodbye"
   exit
 elif [ $num -eq '1' ];then

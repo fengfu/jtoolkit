@@ -11,7 +11,7 @@ echo "q.退出"
 echo ""
 read -p "请输入:" num
 
-if [[ $num = 'q' ]]; then
+if [[ $num == 'q' ]]; then
   echo "Goodbye"
 elif [[ $num -eq '0' ]]; then
   cd ..
@@ -29,7 +29,7 @@ elif [ $num -eq '1' ];then
 elif [ $num -eq '2' ];then
   fname=`cat /proc/swaps|awk -v Type=partition '$2 == Type { print $1 }'`
   read -p "关闭Swap可能会导致进程被OOM Kill,是否继续?[y/n]:" choice
-  if [ $num -eq 'y' ];then
+  if [ $num == 'y' ];then
     sudo swapoff $fname
   fi
   source ./menu_load.sh

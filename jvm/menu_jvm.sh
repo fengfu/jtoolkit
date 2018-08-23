@@ -20,7 +20,7 @@ is_number(){
   fi
 }
 
-if [[ $num = 'q' ]]; then
+if [[ $num == 'q' ]]; then
   echo "Goodbye"
 elif [[ $num -eq '0' ]]; then
   cd ..
