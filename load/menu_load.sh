@@ -104,6 +104,20 @@ elif [ $num -eq '3' ];then
       #获取启动进程的用户名
       user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
 
+      duration_sec="600"
+      read -p "请输入要采样的时间(单位:分钟,默认10分钟,建议5分钟以上):" duration
+
+      if [[ ! -n "$duration" ]]; then
+        duration="10"
+      else
+        is_num=`is_number $duration`
+        if [[ $is_num -eq 'false' ]]; then
+          duration="10"
+        fi
+      fi
+
+      duration_sec=`echo "scale=0; $duration*10"|bc -l`
+
       if [ ! -d "async-profiler" ]; then
         echo "正在下载async-profiler......"
         sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
@@ -115,9 +129,9 @@ elif [ $num -eq '3' ];then
       fi
       cd async-profiler
       fname="flamegraph_$pid.svg"
-      echo "正在收集数据,请稍等......"
+      echo "正在收集数据,需要等待$duration分钟......"
 
-      sudo ./profiler.sh -d 600 -f $fname $pid
+      sudo ./profiler.sh -d $duration_sec -f $fname $pid
 
       if [ -f "/tmp/hsperfdata_$user/$fname" ]; then
         echo "火焰图文件已生成,路径为:/tmp/hsperfdata_$user/$fname"
@@ -146,6 +160,20 @@ elif [ $num -eq '4' ];then
       #获取启动进程的用户名
       user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
 
+      duration_sec="600"
+      read -p "请输入要采样的时间(单位:分钟,默认10分钟,建议5分钟以上):" duration
+
+      if [[ ! -n "$duration" ]]; then
+        duration="10"
+      else
+        is_num=`is_number $duration`
+        if [[ $is_num -eq 'false' ]]; then
+          duration="10"
+        fi
+      fi
+
+      duration_sec=`echo "scale=0; $duration*10"|bc -l`
+
       if [ ! -d "async-profiler" ]; then
         echo "正在下载async-profiler......"
         sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
@@ -157,9 +185,9 @@ elif [ $num -eq '4' ];then
       fi
       cd async-profiler
       fname="jfr_$pid.jfr"
-      echo "正在收集数据,请稍等......"
+      echo "正在收集数据,需要等待$duration分钟......"
 
-      sudo ./profiler.sh -d 600 -o jfr -f $fname $pid
+      sudo ./profiler.sh -d $duration_sec -o jfr -f $fname $pid
 
       if [ -f "/tmp/hsperfdata_$user/$fname" ]; then
         echo "JFR文件已生成,路径为:/tmp/hsperfdata_$user/$fname"
