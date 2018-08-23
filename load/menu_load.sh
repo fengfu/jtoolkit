@@ -87,80 +87,87 @@ elif [ $num -eq '2' ];then
 
   source ./menu_load.sh
 elif [ $num -eq '3' ];then
-  read -p "请输入PID或进程路径关键字:" process
+  read -p "此功能会小概率导致Java应用Crash,是否继续？[y/n]" yesno
+  if [[ $yesno = 'y' ]]; then
 
-  if [[ -n "$process" ]]; then
-    is_num=`is_number $process`
-    if [[ $is_num -eq 'false' ]]; then
-      #根据进程关键字获取pid
-      pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
-    else
-      pid=process
+    read -p "请输入PID或进程路径关键字:" process
+
+    if [[ -n "$process" ]]; then
+      is_num=`is_number $process`
+      if [[ $is_num -eq 'false' ]]; then
+        #根据进程关键字获取pid
+        pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
+      else
+        pid=process
+      fi
+
+      #获取启动进程的用户名
+      user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
+
+      if [ ! -d "async-profiler" ]; then
+        echo "正在下载async-profiler......"
+        sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
+        sudo mkdir async-profiler
+        sudo tar -xvf async-profiler-1.4-linux-x64.tar.gz -C async-profiler >> /dev/null 2>&1
+        sudo rm -f async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
+        #修改属主
+        #sudo chown $group.$user -R vjtop >> /dev/null 2>&1
+      fi
+      cd async-profiler
+      fname="flamegraph_$pid.svg"
+      echo "正在收集数据,请稍等......"
+
+      sudo ./profiler.sh -d 600 -f $fname $pid
+
+      if [ -f "/tmp/hsperfdata_$user/$fname" ]; then
+        echo "火焰图文件已生成,路径为:/tmp/hsperfdata_$user/$fname"
+        #TODO:是否使用sz下载？
+        echo ""
+      fi
+      cd ..
     fi
-
-    #获取启动进程的用户名
-    user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
-
-    if [ ! -d "async-profiler" ]; then
-      echo "正在下载async-profiler......"
-      sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
-      sudo mkdir async-profiler
-      sudo tar -xvf async-profiler-1.4-linux-x64.tar.gz -C async-profiler >> /dev/null 2>&1
-      sudo rm -f async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
-      #修改属主
-      #sudo chown $group.$user -R vjtop >> /dev/null 2>&1
-    fi
-    cd async-profiler
-    fname="flamegraph_$pid.svg"
-    echo "正在收集数据,请稍等......"
-
-    sudo ./profiler.sh -d 600 -f $fname $pid
-
-    if [ -f "/tmp/hsperfdata_$user/$fname" ]; then
-      echo "火焰图文件已生成,路径为:/tmp/hsperfdata_$user/$fname"
-      #TODO:是否使用sz下载？
-      echo ""
-    fi
-    cd ..
   fi
 
   source ./menu_load.sh
 elif [ $num -eq '4' ];then
-  read -p "请输入PID或进程路径关键字:" process
+  read -p "此功能会小概率导致Java应用Crash,是否继续？[y/n]" yesno
+  if [[ $yesno = 'y' ]]; then
+    read -p "请输入PID或进程路径关键字:" process
 
-  if [[ -n "$process" ]]; then
-    is_num=`is_number $process`
-    if [[ $is_num -eq 'false' ]]; then
-      #根据进程关键字获取pid
-      pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
-    else
-      pid=process
+    if [[ -n "$process" ]]; then
+      is_num=`is_number $process`
+      if [[ $is_num -eq 'false' ]]; then
+        #根据进程关键字获取pid
+        pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
+      else
+        pid=process
+      fi
+
+      #获取启动进程的用户名
+      user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
+
+      if [ ! -d "async-profiler" ]; then
+        echo "正在下载async-profiler......"
+        sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
+        sudo mkdir async-profiler
+        sudo tar -xvf async-profiler-1.4-linux-x64.tar.gz -C async-profiler >> /dev/null 2>&1
+        sudo rm -f async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
+        #修改属主
+        #sudo chown $group.$user -R vjtop >> /dev/null 2>&1
+      fi
+      cd async-profiler
+      fname="jfr_$pid.jfr"
+      echo "正在收集数据,请稍等......"
+
+      sudo ./profiler.sh -d 600 -o jfr -f $fname $pid
+
+      if [ -f "/tmp/hsperfdata_$user/$fname" ]; then
+        echo "JFR文件已生成,路径为:/tmp/hsperfdata_$user/$fname"
+        #TODO:是否使用sz下载？
+        echo ""
+      fi
+      cd ..
     fi
-
-    #获取启动进程的用户名
-    user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
-
-    if [ ! -d "async-profiler" ]; then
-      echo "正在下载async-profiler......"
-      sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
-      sudo mkdir async-profiler
-      sudo tar -xvf async-profiler-1.4-linux-x64.tar.gz -C async-profiler >> /dev/null 2>&1
-      sudo rm -f async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
-      #修改属主
-      #sudo chown $group.$user -R vjtop >> /dev/null 2>&1
-    fi
-    cd async-profiler
-    fname="jfr_$pid.jfr"
-    echo "正在收集数据,请稍等......"
-
-    sudo ./profiler.sh -d 600 -o jfr -f $fname $pid
-
-    if [ -f "/tmp/hsperfdata_$user/$fname" ]; then
-      echo "JFR文件已生成,路径为:/tmp/hsperfdata_$user/$fname"
-      #TODO:是否使用sz下载？
-      echo ""
-    fi
-    cd ..
   fi
 
   source ./menu_load.sh
