@@ -84,8 +84,8 @@ elif [ $num -eq '3' ];then
     user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
 
     echo "执行命令:sudo -u $user jmap -histo:live $pid"
-    printf "数量\t\t空间\t\t尺寸\t\t名称\n"
-    sudo -u $user jmap -histo:live $pid | awk 'NR>3 {print $2"\t\t"$3"\t\t"$3/$2"\t\t"$4}'|sort -gr -k3| awk 'NR<21 {print $0}'
+    printf "数量\t\t\t空间\t\t\t尺寸\t\t\t名称\n"
+    sudo -u $user jmap -histo:live $pid | awk 'NR>3 {print $2"\t\t\t"$3"\t\t\t"$3/$2"\t\t\t"$4}'|sort -gr -k3| awk 'NR<21 {print $0}'
   fi
 
   source ./menu_memory.sh
