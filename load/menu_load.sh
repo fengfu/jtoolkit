@@ -128,13 +128,13 @@ elif [ $num -eq '3' ];then
         #sudo chown $group.$user -R vjtop >> /dev/null 2>&1
       fi
       cd async-profiler
-      fname="flamegraph_$pid.svg"
+      fname="/tmp/hsperfdata_$user/flamegraph_$pid.svg"
       echo "正在收集数据,需要等待$duration分钟......"
 
       sudo ./profiler.sh -d $duration_sec -f $fname $pid
 
-      if [ -f "/tmp/hsperfdata_$user/$fname" ]; then
-        echo "火焰图文件已生成,路径为:/tmp/hsperfdata_$user/$fname"
+      if [ -f "$fname" ]; then
+        echo "火焰图文件已生成,路径为:$fname"
         #TODO:是否使用sz下载？
         echo ""
       else
@@ -186,13 +186,13 @@ elif [ $num -eq '4' ];then
         #sudo chown $group.$user -R vjtop >> /dev/null 2>&1
       fi
       cd async-profiler
-      fname="jfr_$pid.jfr"
+      fname="/tmp/hsperfdata_$user/jfr_$pid.jfr"
       echo "正在收集数据,需要等待$duration分钟......"
 
       sudo ./profiler.sh -d $duration_sec -o jfr -f $fname $pid
 
-      if [ -f "/tmp/hsperfdata_$user/$fname" ]; then
-        echo "JFR文件已生成,路径为:/tmp/hsperfdata_$user/$fname"
+      if [ -f "$fname" ]; then
+        echo "JFR文件已生成,路径为:$fname"
         #TODO:是否使用sz下载？
         echo ""
       else
