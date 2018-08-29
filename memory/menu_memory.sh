@@ -36,7 +36,7 @@ elif [ $num -eq '1' ];then
       #根据进程关键字获取pid
       pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
     else
-      pid=process
+      pid=`echo $process`
     fi
 
     #获取启动进程的用户名
@@ -57,7 +57,7 @@ elif [ $num -eq '2' ];then
       #根据进程关键字获取pid
       pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
     else
-      pid=process
+      pid=`echo $process`
     fi
 
     #获取启动进程的用户名
@@ -77,7 +77,7 @@ elif [ $num -eq '3' ];then
       #根据进程关键字获取pid
       pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
     else
-      pid=process
+      pid=`echo $process`
     fi
 
     #获取启动进程的用户名
@@ -101,7 +101,7 @@ elif [ $num -eq '4' ];then
         #根据进程关键字获取pid
         pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
       else
-        pid=process
+        pid=`echo $process`
       fi
 
       fname="/tmp/hsperfdata_$user/dump_$pid.bin"

@@ -21,7 +21,7 @@ if [[ $is_num == 'false' ]]; then
   #根据进程关键字获取pid
   pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
 else
-  pid=process
+  pid=`echo $process`
 fi
 
 #获取启动进程的用户名
