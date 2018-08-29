@@ -23,6 +23,12 @@ is_number(){
   fi
 }
 
+get_core_version(){
+  release_version=`uname -r`
+  vers=(${release_version//\-/ })
+  echo ${vers[0]//./}
+}
+
 if [[ $num == 'q' ]]; then
   echo "Goodbye"
 elif [ $num -eq '0' ];then
@@ -119,11 +125,18 @@ elif [ $num -eq '3' ];then
       duration_sec=`echo "scale=0; $duration*10"|bc -l`
 
       if [ ! -d "async-profiler" ]; then
-        echo "正在下载async-profiler......"
-        sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
-        sudo mkdir async-profiler
-        sudo tar -xvf async-profiler-1.4-linux-x64.tar.gz -C async-profiler >> /dev/null 2>&1
-        sudo rm -f async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
+        core_version=`get_core_version`
+        if [[ $core_version -gt '2634' ]]; then
+          sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
+          sudo mkdir async-profiler
+          sudo tar -xvf async-profiler-1.4-linux-x64.tar.gz -C async-profiler >> /dev/null 2>&1
+          sudo rm -f async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
+        else
+          sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.4-linux-2.6.34-x64.tar.gz >> /dev/null 2>&1
+          sudo mkdir async-profiler
+          sudo tar -xvf async-profiler-1.4-linux-2.6.34-x64.tar.gz -C async-profiler >> /dev/null 2>&1
+          sudo rm -f async-profiler-1.4-linux-2.6.34-x64.tar.gz >> /dev/null 2>&1
+        fi
         #修改属主
         #sudo chown $group.$user -R vjtop >> /dev/null 2>&1
       fi
@@ -178,10 +191,20 @@ elif [ $num -eq '4' ];then
 
       if [ ! -d "async-profiler" ]; then
         echo "正在下载async-profiler......"
-        sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
-        sudo mkdir async-profiler
-        sudo tar -xvf async-profiler-1.4-linux-x64.tar.gz -C async-profiler >> /dev/null 2>&1
-        sudo rm -f async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
+
+        core_version=`get_core_version`
+        if [[ $core_version -gt '2634' ]]; then
+          sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
+          sudo mkdir async-profiler
+          sudo tar -xvf async-profiler-1.4-linux-x64.tar.gz -C async-profiler >> /dev/null 2>&1
+          sudo rm -f async-profiler-1.4-linux-x64.tar.gz >> /dev/null 2>&1
+        else
+          sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.4-linux-2.6.34-x64.tar.gz >> /dev/null 2>&1
+          sudo mkdir async-profiler
+          sudo tar -xvf async-profiler-1.4-linux-2.6.34-x64.tar.gz -C async-profiler >> /dev/null 2>&1
+          sudo rm -f async-profiler-1.4-linux-2.6.34-x64.tar.gz >> /dev/null 2>&1
+        fi
+
         #修改属主
         #sudo chown $group.$user -R vjtop >> /dev/null 2>&1
       fi
