@@ -100,11 +100,11 @@ elif [ $num -eq '2' ];then
         sudo wget --no-check-certificate http://repo1.maven.org/maven2/com/vip/vjtools/vjtop/1.0.1/vjtop-1.0.1.zip >> /dev/null 2>&1
         sudo unzip vjtop-1.0.1.zip >> /dev/null 2>&1
         sudo rm -f vjtop-1.0.1.zip >> /dev/null 2>&1
+        #修改属主
+        sudo chown $group.$user -R vjtop >> /dev/null 2>&1
       fi
-      #修改属主
-      sudo chown $group.$user -R vjtop >> /dev/null 2>&1
     fi
-    if [ ! -d "vjtop" ]; then
+    if [ -d "vjtop" ]; then
       cd vjtop
       sudo -u $user ./vjtop.sh $pid
       cd ..
