@@ -23,6 +23,14 @@ is_number(){
   fi
 }
 
+has_unzip(){
+  if ! [ -x "$(command -v unzip)" ]; then
+    echo 'false'
+  else
+    echo 'true'
+  fi
+}
+
 get_core_version(){
   release_version=`uname -r`
   vers=(${release_version//\-/ })
@@ -79,16 +87,30 @@ elif [ $num -eq '2' ];then
     group=`id -gn $user`
 
     if [ ! -d "vjtop" ]; then
-      echo "正在下载vjtop......"
-      sudo wget --no-check-certificate http://repo1.maven.org/maven2/com/vip/vjtools/vjtop/1.0.1/vjtop-1.0.1.zip >> /dev/null 2>&1
-      sudo unzip vjtop-1.0.1.zip >> /dev/null 2>&1
-      sudo rm -f vjtop-1.0.1.zip >> /dev/null 2>&1
+      has_it=`has_unzip`
+      if [[ $has_it == 'false' ]]; then
+        #根据进程关键字获取pid
+        sudo yum install unzip -y
+      fi
+      has_it=`has_unzip`
+      if [[ $has_it == 'false' ]]; then
+        echo 'unzip未安装，无法解压安装文件，请先安装unzip'
+      else
+        echo "正在下载vjtop......"
+        sudo wget --no-check-certificate http://repo1.maven.org/maven2/com/vip/vjtools/vjtop/1.0.1/vjtop-1.0.1.zip >> /dev/null 2>&1
+        sudo unzip vjtop-1.0.1.zip >> /dev/null 2>&1
+        sudo rm -f vjtop-1.0.1.zip >> /dev/null 2>&1
+      fi
       #修改属主
       sudo chown $group.$user -R vjtop >> /dev/null 2>&1
     fi
-    cd vjtop
-    sudo -u $user ./vjtop.sh $pid
-    cd ..
+    if [ ! -d "vjtop" ]; then
+      cd vjtop
+      sudo -u $user ./vjtop.sh $pid
+      cd ..
+    else
+      echo '解压vjtop失败'
+    fi
   fi
 
   source ./menu_load.sh
