@@ -44,7 +44,7 @@ show_inputtip(){
   if [[ -n "$current_pid" ]]; then
     echo "直接回车:继续使用上次的PID($current_pid)"
   fi
-  echo "其他数字:作为PID进行分析"
+  echo "数字:作为PID进行分析"
   echo "字符:作为进程关键字查找到对应的PID进行分析"
   echo "q:返回上级菜单"
 }
