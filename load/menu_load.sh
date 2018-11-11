@@ -31,6 +31,24 @@ has_unzip(){
   fi
 }
 
+show_inputtip_withall(){
+  if [[ -n "$current_pid" ]]; then
+    echo "直接回车:继续使用上次的PID($current_pid)"
+  fi
+  echo "0:分析所有Java进程"
+  echo "其他数字:作为PID进行分析"
+  echo "字符:作为进程关键字查找到对应的PID进行分析"
+}
+
+show_inputtip(){
+  if [[ -n "$current_pid" ]]; then
+    echo "直接回车:继续使用上次的PID($current_pid)"
+  fi
+  echo "其他数字:作为PID进行分析"
+  echo "字符:作为进程关键字查找到对应的PID进行分析"
+  echo "q:返回上级菜单"
+}
+
 get_core_version(){
   release_version=`uname -r`
   vers=(${release_version//\-/ })
@@ -51,37 +69,45 @@ elif [ $num -eq '1' ];then
     sudo chmod +x show_busy_threads_with_percent.sh >> /dev/null 2>&1
   fi
 
-  read -p "请输入PID或进程路径关键字(不输入则从所有Java进程中找出最消耗CPU的线程):" process
+  show_inputtip_withall
 
-  if [[ ! -n "$process" ]]; then
+  read -p "请按上述提示输入:" process_keyword
+
+  if [[ ! -n "$process_keyword" ]]; then
+    sudo ./show_busy_threads_with_percent.sh -p $current_pid
+  elif [ $process_keyword == '0' ];then
     sudo ./show_busy_threads_with_percent.sh
   else
-    is_num=`is_number $process`
+    is_num=`is_number $process_keyword`
     if [[ $is_num == 'false' ]]; then
       #根据进程关键字获取pid
-      pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
+      current_pid=`ps aux |grep "java"|grep "$process_keyword"|grep -v "grep"|awk '{ print $2}'`
     else
-      pid=`echo $process`
+      current_pid=`echo $process_keyword`
     fi
 
-    sudo ./show_busy_threads_with_percent.sh -p $pid
+    sudo ./show_busy_threads_with_percent.sh -p $current_pid
   fi
 
   source ./menu_load.sh
 elif [ $num -eq '2' ];then
-  read -p "请输入PID或进程路径关键字:" process
+  show_inputtip
 
-  if [[ -n "$process" ]]; then
-    is_num=`is_number $process`
-    if [[ $is_num == 'false' ]]; then
-      #根据进程关键字获取pid
-      pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
-    else
-      pid=`echo $process`
+  read -p "请按上述提示输入:" process_keyword
+
+  if [[ ! $process_keyword == 'q' ]]; then
+    if [[ -n "$process_keyword" ]]; then
+      is_num=`is_number $process_keyword`
+      if [[ $is_num == 'false' ]]; then
+        #根据进程关键字获取pid
+        current_pid=`ps aux |grep "java"|grep "$process_keyword"|grep -v "grep"|awk '{ print $2}'`
+      else
+        current_pid=`echo $process_keyword`
+      fi
     fi
 
     #获取启动进程的用户名
-    user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
+    user=`ps aux | awk -v PID=$current_pid '$2 == PID { print $1 }'`
 
     #获取用户所在组
     group=`id -gn $user`
@@ -106,7 +132,7 @@ elif [ $num -eq '2' ];then
     fi
     if [ -d "vjtop" ]; then
       cd vjtop
-      sudo -u $user ./vjtop.sh $pid
+      sudo -u $user ./vjtop.sh $current_pid
       cd ..
     else
       echo '解压vjtop失败'
@@ -118,19 +144,23 @@ elif [ $num -eq '3' ];then
   read -p "此功能会小概率导致Java应用Crash,是否继续？[y/n]" yesno
   if [[ $yesno == 'y' ]]; then
 
-    read -p "请输入PID或进程路径关键字:" process
+    show_inputtip
 
-    if [[ -n "$process" ]]; then
-      is_num=`is_number $process`
-      if [[ $is_num == 'false' ]]; then
-        #根据进程关键字获取pid
-        pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
-      else
-        pid=`echo $process`
+    read -p "请按上述提示输入:" process_keyword
+
+    if [[ ! $process_keyword == 'q' ]]; then
+      if [[ -n "$process_keyword" ]]; then
+        is_num=`is_number $process_keyword`
+        if [[ $is_num == 'false' ]]; then
+          #根据进程关键字获取pid
+          current_pid=`ps aux |grep "java"|grep "$process_keyword"|grep -v "grep"|awk '{ print $2}'`
+        else
+          current_pid=`echo $process_keyword`
+        fi
       fi
 
       #获取启动进程的用户名
-      user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
+      user=`ps aux | awk -v PID=$current_pid '$2 == PID { print $1 }'`
 
       duration_sec="600"
       read -p "请输入要采样的时间(单位:分钟,默认10分钟,建议5分钟以上):" duration
@@ -166,10 +196,10 @@ elif [ $num -eq '3' ];then
         #sudo chown $group.$user -R vjtop >> /dev/null 2>&1
       fi
       cd async-profiler
-      fname="/tmp/hsperfdata_$user/flamegraph_$pid.svg"
+      fname="/tmp/hsperfdata_$user/flamegraph_$current_pid.svg"
       echo "正在收集数据,需要等待$duration分钟......"
 
-      sudo ./profiler.sh -d $duration_sec -f $fname $pid
+      sudo ./profiler.sh -d $duration_sec -f $fname $current_pid
 
       if [ -f "$fname" ]; then
         echo "火焰图文件已生成,路径为:$fname"
@@ -186,19 +216,23 @@ elif [ $num -eq '3' ];then
 elif [ $num -eq '4' ];then
   read -p "此功能会小概率导致Java应用Crash,是否继续？[y/n]" yesno
   if [[ $yesno == 'y' ]]; then
-    read -p "请输入PID或进程路径关键字:" process
+    show_inputtip
 
-    if [[ -n "$process" ]]; then
-      is_num=`is_number $process`
-      if [[ $is_num == 'false' ]]; then
-        #根据进程关键字获取pid
-        pid=`ps aux |grep "java"|grep "$process"|grep -v "grep"|awk '{ print $2}'`
-      else
-        pid=`echo $process`
+    read -p "请按上述提示输入:" process_keyword
+
+    if [[ ! $process_keyword == 'q' ]]; then
+      if [[ -n "$process_keyword" ]]; then
+        is_num=`is_number $process_keyword`
+        if [[ $is_num == 'false' ]]; then
+          #根据进程关键字获取pid
+          current_pid=`ps aux |grep "java"|grep "$process_keyword"|grep -v "grep"|awk '{ print $2}'`
+        else
+          current_pid=`echo $process_keyword`
+        fi
       fi
 
       #获取启动进程的用户名
-      user=`ps aux | awk -v PID=$pid '$2 == PID { print $1 }'`
+      user=`ps aux | awk -v PID=$current_pid '$2 == PID { print $1 }'`
 
       duration_sec="600"
       read -p "请输入要采样的时间(单位:分钟,默认10分钟,建议5分钟以上):" duration
@@ -234,10 +268,10 @@ elif [ $num -eq '4' ];then
         #sudo chown $group.$user -R vjtop >> /dev/null 2>&1
       fi
       cd async-profiler
-      fname="/tmp/hsperfdata_$user/jfr_$pid.jfr"
+      fname="/tmp/hsperfdata_$user/jfr_$current_pid.jfr"
       echo "正在收集数据,需要等待$duration分钟......"
 
-      sudo ./profiler.sh -d $duration_sec -o jfr -f $fname $pid
+      sudo ./profiler.sh -d $duration_sec -o jfr -f $fname $current_pid
 
       if [ -f "$fname" ]; then
         echo "JFR文件已生成,路径为:$fname"
