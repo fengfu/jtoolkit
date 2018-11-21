@@ -129,10 +129,10 @@ elif [ $num -eq '4' ];then
         fi
       fi
 
-      fname="/tmp/hsperfdata_$user/dump_$current_pid.bin"
-
       #获取启动进程的用户名
       user=`ps aux | awk -v PID=$current_pid '$2 == PID { print $1 }'`
+
+      fname="/tmp/hsperfdata_$user/dump_$current_pid.bin"
 
       echo "执行命令:sudo -u $user jmap -F -dump:format=b,file=$fname $current_pid导出堆内存..."
       sudo -u $user jmap -F -dump:format=b,file=$fname $current_pid
