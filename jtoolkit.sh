@@ -54,7 +54,7 @@ elif [ "$num" == '1' ];then
   mod="cpu"
 elif [ "$num" == '2' ];then
    mod="memory"
-elif [ "$num" =='3' ];then
+elif [ "$num" == '3' ];then
   mod="swap"
 elif [ "$num" == '4' ];then
   mod="disk"
@@ -63,7 +63,7 @@ elif [ "$num" == '5' ];then
 elif [ "$num" == '6' ];then
   mod="jvm"
 elif [ "$num" == '7' ];then
-   mod="gc"
+  mod="gc"
 elif [ "$num" == '8' ];then
   mod="hardware"
 elif [ "$num" == '9' ];then
