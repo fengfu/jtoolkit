@@ -1,4 +1,4 @@
-#!/bin/bash
+4527#!/bin/bash
 # @Function
 # Find out the highest cpu consumed threads of java, and print the stack of these threads.
 #
@@ -8,6 +8,7 @@
 # @online-doc https://github.com/oldratlee/useful-scripts/blob/master/docs/java.md#-show-busy-java-threads
 # @author Jerry Lee (oldratlee at gmail dot com)
 # @author superhj1987 (superhj1987 at 126 dot com)
+# @author qufengfu (qufengfu at gmail dot com)
 
 readonly PROG="`basename $0`"
 readonly -a COMMAND_LINE=("$0" "$@")
@@ -123,6 +124,8 @@ cpu usage calculation control:
                             default use top command, because cpu usage of ps command is expressed as
                             the percentage of time spent running during the entire lifetime of a process,
                             this is not ideal.
+                            (ps是从进程开始就开始算的，是平均的占用率；
+                            而top是从上次刷新开始算的，一般几秒钟一刷，可以认为是即时的，所以这里不建议使用-P选项)
 
 Miscellaneous:
   -h, --help                display this help and exit.
@@ -290,7 +293,8 @@ findBusyJavaThreadsByPs() {
     # 1. sort by %cpu by ps option `--sort -pcpu`
     # 2. use wide output(unlimited width) by ps option `-ww`
     #    avoid trunk user column to username_fo+ or $uid alike
-    local -a ps_cmd_line=(ps $ps_process_select_options -wwLo pid,lwp,pcpu,user --sort -pcpu --no-headers)
+    # 这里原来的脚本是用--sort，貌似结果是乱序的，改用sort命令
+    local -a ps_cmd_line=(ps $ps_process_select_options -wwLo pid,lwp,pcpu,user --no-headers | sort -nrk 3)
     local -r ps_out="$("${ps_cmd_line[@]}")"
     if [ -n "$store_dir" ]; then
         echo "$ps_out" | logAndCat "${ps_cmd_line[@]}" > "${store_file_prefix}$(( i + 1 ))_ps"

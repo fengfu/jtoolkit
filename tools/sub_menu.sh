@@ -54,5 +54,5 @@ elif [ $num -eq '1' ];then
 
   sudo -u $group.$user ./as.sh
 
-  source ./menu_load.sh
+  source ./sub_menu.sh
 fi
