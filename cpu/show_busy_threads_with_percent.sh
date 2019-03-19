@@ -293,8 +293,7 @@ findBusyJavaThreadsByPs() {
     # 1. sort by %cpu by ps option `--sort -pcpu`
     # 2. use wide output(unlimited width) by ps option `-ww`
     #    avoid trunk user column to username_fo+ or $uid alike
-    # 这里原来的脚本是用--sort，貌似结果是乱序的，改用sort命令
-    local -a ps_cmd_line=(ps $ps_process_select_options -wwLo pid,lwp,pcpu,user --no-headers | sort -nrk 3)
+    local -a ps_cmd_line=(ps $ps_process_select_options -wwLo pid,lwp,pcpu,user --no-headers --sort -pcpu)
     local -r ps_out="$("${ps_cmd_line[@]}")"
     if [ -n "$store_dir" ]; then
         echo "$ps_out" | logAndCat "${ps_cmd_line[@]}" > "${store_file_prefix}$(( i + 1 ))_ps"
