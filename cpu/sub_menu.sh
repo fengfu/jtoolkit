@@ -1,17 +1,20 @@
 #!/bin/bash
-# Load工具箱入口
+# cpu工具箱入口
 # @author: qufengfu@gmail.com
 
-echo ""
-echo ">>>>>>>>>>CPU工具<<<<<<<<<<"
-echo "1.显示Java线程栈的CPU时间占比"
-echo "2.线程CPU时间占比排行(VJTop)"
-echo "3.生成火焰图(10分钟)"
-echo "4.生成飞行记录JFR(10分钟)"
-echo "0.返回上级菜单"
-echo "q.退出"
-echo ""
+show_sub_menu(){
+  echo ""
+  echo ">>>>>>>>>>CPU工具<<<<<<<<<<"
+  echo "1.显示Java线程栈的CPU时间占比"
+  echo "2.线程CPU时间占比排行(VJTop)"
+  echo "3.生成火焰图(10分钟)"
+  echo "4.生成飞行记录JFR(10分钟)"
+  echo "0.返回上级菜单"
+  echo "q.退出"
+  echo ""
+}
 
+show_sub_menu
 read -p "请输入功能序号:" num
 
 is_number(){
@@ -55,17 +58,17 @@ get_core_version(){
   echo ${vers[0]//./}
 }
 
-if [[ $num == 'q' ]]; then
+if [[ "$num" == 'q' ]]; then
   echo "Goodbye"
-elif [ $num -eq '0' ];then
+elif [ "$num" == '0' ];then
   cd ..
   source ./jtoolkit.sh
-elif [ $num -eq '1' ];then
+elif [ "$num" == '1' ];then
 
   #如果文件不存在，先下载文件
   if [ ! -f "show_busy_threads_with_percent.sh" ]; then
     echo "正在下载show_busy_threads_with_percent.sh......"
-    sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/load/show_busy_threads_with_percent.sh >> /dev/null 2>&1
+    sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/cpu/show_busy_threads_with_percent.sh >> /dev/null 2>&1
     sudo chmod +x show_busy_threads_with_percent.sh >> /dev/null 2>&1
   fi
 
@@ -90,7 +93,7 @@ elif [ $num -eq '1' ];then
   fi
 
   source ./sub_menu.sh
-elif [ $num -eq '2' ];then
+elif [ "$num" == '2' ];then
   show_inputtip
 
   read -p "请按上述提示输入:" process_keyword
@@ -140,7 +143,7 @@ elif [ $num -eq '2' ];then
   fi
 
   source ./sub_menu.sh
-elif [ $num -eq '3' ];then
+elif [ "$num" == '3' ];then
   read -p "此功能会小概率导致Java应用Crash,是否继续？[y/n]" yesno
   if [[ $yesno == 'y' ]]; then
 
@@ -213,7 +216,7 @@ elif [ $num -eq '3' ];then
   fi
 
   source ./sub_menu.sh
-elif [ $num -eq '4' ];then
+elif [ "$num" == '4' ];then
   read -p "此功能会小概率导致Java应用Crash,是否继续？[y/n]" yesno
   if [[ $yesno == 'y' ]]; then
     show_inputtip
