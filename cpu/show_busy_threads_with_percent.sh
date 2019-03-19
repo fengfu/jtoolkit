@@ -1,4 +1,4 @@
-4527#!/bin/bash
+#!/bin/bash
 # @Function
 # Find out the highest cpu consumed threads of java, and print the stack of these threads.
 #
