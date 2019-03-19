@@ -5,12 +5,12 @@
 show_menu(){
  echo "欢迎使用JToolkit,本工具箱提供以下问题的排查辅助:"
  echo "1.CPU工具"
- echo "2.GC工具(开发中)"
+ echo "2.内存工具"
  echo "3.Swap工具"
- echo "4.内存工具"
- echo "5.磁盘工具"
- echo "6.网络工具"
- echo "7.JVM工具"
+ echo "4.磁盘工具"
+ echo "5.网络工具"
+ echo "6.JVM工具"
+ echo "7.GC工具(开发中)"
  echo "8.硬件信息"
  echo "9.其他工具安装"
  echo "q.退出"
@@ -47,26 +47,26 @@ fi
 read -p "请输入选项编号:" num
 #echo "您的选择是:" $num
 
-if [ $num == 'q' ];then
+if [ "$num" == 'q' ];then
   echo "Goodbye"
   exit
-elif [ $num -eq '1' ];then
+elif [ "$num" == '1' ];then
   mod="cpu"
-elif [ $num -eq '2' ];then
-  mod="gc"
-elif [ $num -eq '3' ];then
+elif [ "$num" == '2' ];then
+   mod="memory"
+elif [ "$num" =='3' ];then
   mod="swap"
-elif [ $num -eq '4' ];then
-  mod="memory"
-elif [ $num -eq '5' ];then
+elif [ "$num" == '4' ];then
   mod="disk"
-elif [ $num -eq '6' ];then
+elif [ "$num" == '5' ];then
   mod="net"
-elif [ $num -eq '7' ];then
-  mod="disk"
-elif [ $num -eq '8' ];then
+elif [ "$num" == '6' ];then
+  mod="jvm"
+elif [ "$num" == '7' ];then
+   mod="gc"
+elif [ "$num" == '8' ];then
   mod="hardware"
-elif [ $num -eq '9' ];then
+elif [ "$num" == '9' ];then
   mod="tools"
 fi
 
