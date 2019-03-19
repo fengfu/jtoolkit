@@ -10,7 +10,7 @@ show_menu(){
  echo "4.磁盘工具"
  echo "5.网络工具"
  echo "6.JVM工具"
- echo "7.GC工具(开发中)"
+ echo "7.GC工具"
  echo "8.硬件信息"
  echo "9.其他工具安装"
  echo "q.退出"
