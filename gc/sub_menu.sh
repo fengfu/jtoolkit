@@ -40,8 +40,8 @@ elif [ "$num" == '1' ];then
     else
       result=`curl -X POST --data-binary @$gc_file https://api.gceasy.io/analyzeGC?apiKey=9c4dc240-d620-4e4c-8369-ef4d6e5c6019 --header "Content-Type:text"`
       url=`get_json_value $result graphURL`
-      if [[ $url = 'http'* ]]; then
-        echo "请将后面的URL粘贴到浏览器查看结果\n$url"
+      if [[ $url == 'http'* ]]; then
+        echo "分析完毕，请将后面的URL粘贴到浏览器查看分析结果\n$url"
       else
         echo "无法获取分析结果:\n$result"
       fi
