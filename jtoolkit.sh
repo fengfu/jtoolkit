@@ -51,7 +51,7 @@ if [ $num == 'q' ];then
   echo "Goodbye"
   exit
 elif [ $num -eq '1' ];then
-  mod="load"
+  mod="cpu"
 elif [ $num -eq '2' ];then
   mod="gc"
 elif [ $num -eq '3' ];then
