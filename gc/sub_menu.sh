@@ -33,7 +33,7 @@ elif [ "$num" == '1' ];then
     else
       echo "正在上传文件进行分析，请稍候......"
       result=$(curl -sX POST --data-binary @$gc_file https://api.gceasy.io/analyzeGC?apiKey=9c4dc240-d620-4e4c-8369-ef4d6e5c6019 --header "Content-Type:text")
-      if [[ ! -n "$result" ]]; then
+      if [[ -n "$result" ]]; then
         has_jq=`has_command jq`
         if [[ $has_jq == 'false' ]]; then
           #获取操作系统位数
