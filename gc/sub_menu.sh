@@ -34,22 +34,23 @@ elif [ "$num" == '1' ];then
       echo "正在上传文件进行分析，请稍候......"
       result=$(curl -sX POST --data-binary @$gc_file https://api.gceasy.io/analyzeGC?apiKey=9c4dc240-d620-4e4c-8369-ef4d6e5c6019 --header "Content-Type:text")
       if [[ -n "$result" ]]; then
-        has_jq=`has_command jq`
-        if [[ $has_jq == 'false' ]]; then
+        if [ ! -f "jq" ]; then
           #获取操作系统位数
           bit=`getconf LONG_BIT`
           sudo wget --no-check-certificate http://fengfu.io/attach/jq/jq-linux$bit >> /dev/null 2>&1
           sudo mv jq-linux$bit jq && sudo chmod +x jq
         fi
-        has_jq=`has_command jq`
-        if [[ $has_jq == 'false' ]]; then
-          printf "无法通过jq解析分析结果，请将结果中的graphURL的地址粘贴到浏览器中查看结果\n$result"
+        if [ ! -f "jq" ]; then
+          printf "找不到jq工具，无法解析分析结果，请将结果中的graphURL的地址粘贴到浏览器中查看结果"
+          echo $result
         else
           url=`echo $result|./jq .graphURL`
           if [[ ! -n "$url" ]]; then
-            printf "无法通过jq解析分析结果，请将结果中的graphURL的地址粘贴到浏览器中查看结果\n$result"
+            printf "无法通过jq解析分析结果，请将结果中的graphURL的地址粘贴到浏览器中查看结果\n"
+            echo $result
           else
-            printf "分析结束，情况后面的URL粘贴到浏览器查看分析结果\n$url"
+            printf "分析结束，请将后面的URL粘贴到浏览器查看分析结果\n"
+            echo $url
           fi
         fi
       else
