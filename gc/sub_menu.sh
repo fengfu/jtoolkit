@@ -2,19 +2,12 @@
 # GC工具箱入口
 # @author: qufengfu@gmail.com
 
-function get_json_value(){
-  local json=$1
-  local key=$2
-
-  if [[ -z "$3" ]]; then
-    local num=1
+has_command(){
+  if ! [ -x "$(command -v $1)" ]; then
+    echo 'false'
   else
-    local num=$3
+    echo 'true'
   fi
-
-  local value=$(echo "${json}" | awk -F"[,:}]" '{for(i=1;i<=NF;i++){if($i~/'${key}'\042/){print $(i+1)}}}' | tr -d '"' | sed -n ${num}p)
-
-  echo ${value}
 }
 
 echo ""
@@ -39,11 +32,27 @@ elif [ "$num" == '1' ];then
       echo "$gc_file文件不存在"
     else
       result=`curl -X POST --data-binary @$gc_file https://api.gceasy.io/analyzeGC?apiKey=9c4dc240-d620-4e4c-8369-ef4d6e5c6019 --header "Content-Type:text"`
-      url=`get_json_value $result graphURL`
-      if [[ $url == 'http'* ]]; then
-        echo "分析完毕，请将后面的URL粘贴到浏览器查看分析结果\n$url"
+      if [[ ! -n "$result" ]]; then
+        has_jq=`has_command jq`
+        if [[ $has_jq == 'false' ]]; then
+          #获取操作系统位数
+          bit=`getconf LONG_BIT`
+          sudo wget --no-check-certificate http://fengfu.io/attach/jq/jq-linux$bit >> /dev/null 2>&1
+          sudo mv jq-linux$bit jq && sudo chmod +x jq
+        fi
+        has_jq=`has_command jq`
+        if [[ $has_jq == 'false' ]]; then
+          printf "无法通过jq解析分析结果，请将结果中的graphURL的地址粘贴到浏览器中查看结果\n$result"
+        else
+          url=`echo $result|./jq .graphURL`
+          if [[ ! -n "$url" ]]; then
+            printf "无法通过jq解析分析结果，请将结果中的graphURL的地址粘贴到浏览器中查看结果\n$result"
+          else
+            printf "分析结束，情况后面的URL粘贴到浏览器查看分析结果\n$url"
+          fi
+        fi
       else
-        echo "无法获取分析结果:\n$result"
+        echo "分析失败，无法获取分析结果，请检查gceasy.io是否能正常访问"
       fi
     fi
   fi
