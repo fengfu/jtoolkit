@@ -1,11 +1,9 @@
 #!/bin/bash
-# JVM工具箱入口
+# disk工具箱入口
 # @author: qufengfu@gmail.com
 
 echo ""
-echo ">>>>>>>>>>JVM工具箱<<<<<<<<<<"
-echo "1.JVM参数检查"
-echo "2.JVM参数生成"
+echo ">>>>>>>>>>Disk工具箱<<<<<<<<<<"
 echo "0.返回上级菜单"
 echo "q.退出"
 echo ""
@@ -25,22 +23,4 @@ if [[ $num == 'q' ]]; then
 elif [[ $num -eq '0' ]]; then
   cd ..
   source ./jtoolkit.sh
-elif [ $num -eq '1' ];then
-  if [ ! -f "jvm_option_check.sh" ]; then
-    echo "正在下载jvm_option_check.sh......"
-    sudo wget --no-check-certificate --no-cache https://raw.githubusercontent.com/fengfu/jtoolkit/master/jvm/jvm_option_check.sh >> /dev/null 2>&1
-  fi
-  sh jvm_option_check.sh
-
-  #在当前进程执行
-  source ./sub_menu.sh
-elif [ $num -eq '2' ];then
-  if [ ! -f "jvm_option_generate.sh" ]; then
-    echo "正在下载jvm_option_generate.sh......"
-    sudo wget --no-check-certificate --no-cache https://raw.githubusercontent.com/fengfu/jtoolkit/master/jvm/jvm_option_generate.sh >> /dev/null 2>&1
-  fi
-  sh jvm_option_generate.sh
-
-  #在当前进程执行
-  source ./sub_menu.sh
 fi
