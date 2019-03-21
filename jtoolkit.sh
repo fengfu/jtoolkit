@@ -70,12 +70,14 @@ elif [ "$num" == '9' ];then
   mod="tools"
 fi
 
-if [ ! -d "$mod" ]; then
-  sudo mkdir $mod
+if [[ ! -z "$num" ]]; then
+  if [ ! -d "$mod" ]; then
+    sudo mkdir $mod
+  fi
+  cd $mod
+  if [ ! -f "sub_menu.sh" ]; then
+    echo "正在下载$mod/sub_menu.sh"
+    sudo wget --no-check-certificate --no-cache https://raw.githubusercontent.com/fengfu/jtoolkit/master/$mod/sub_menu.sh >> /dev/null 2>&1
+  fi
+  source ./sub_menu.sh
 fi
-cd $mod
-if [ ! -f "sub_menu.sh" ]; then
-  echo "正在下载$mod/sub_menu.sh"
-  sudo wget --no-check-certificate --no-cache https://raw.githubusercontent.com/fengfu/jtoolkit/master/$mod/sub_menu.sh >> /dev/null 2>&1
-fi
-source ./sub_menu.sh
