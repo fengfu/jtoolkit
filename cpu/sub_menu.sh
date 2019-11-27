@@ -182,14 +182,14 @@ elif [ "$num" == '3' ];then
       if [ ! -d "async-profiler" ]; then
 
         core_version=`get_core_version`
-        if [[ $core_version -lt '2634' ]]; then
+        if [[ $core_version -ge 2634 ]]; then
           echo "正在下载async-profiler......"
           sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.5-linux-x64.tar.gz >> /dev/null 2>&1
           sudo mkdir async-profiler
           sudo tar -xvf async-profiler-1.5-linux-x64.tar.gz -C async-profiler >> /dev/null 2>&1
           sudo rm -f async-profiler-1.5-linux-x64.tar.gz >> /dev/null 2>&1
         else
-          echo "正在下载async-profiler for linux core 2.6.34及以下版本......"
+          echo "正在下载async-profiler for linux core 2.6.34及以上版本......"
           sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.5-linux-2.6.34-x64.tar.gz >> /dev/null 2>&1
           sudo mkdir async-profiler
           sudo tar -xvf async-profiler-1.5-linux-2.6.34-x64.tar.gz -C async-profiler >> /dev/null 2>&1
@@ -253,7 +253,7 @@ elif [ "$num" == '4' ];then
 
       if [ ! -d "async-profiler" ]; then
         core_version=`get_core_version`
-        if [[ $core_version -lt '2634' ]]; then
+        if [[ $core_version -ge 2634 ]]; then
           echo "正在下载async-profiler......"
           sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.5-linux-x64.tar.gz >> /dev/null 2>&1
           sudo mkdir async-profiler
