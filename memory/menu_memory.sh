@@ -53,10 +53,14 @@ elif [ $num -eq '1' ];then
     fi
 
     #获取启动进程的用户名
-    user=`ps aux | awk -v PID=$current_pid '$2 == PID { print $1 }'`
+    java_user=`ps aux | awk -v PID=$current_pid '$2 == PID { print $1 }'`
 
-    echo "执行命令:sudo -u $user jmap -heap $current_pid"
-    sudo -u $user jmap -heap $current_pid
+    echo "执行命令:sudo -u $java_user jmap -heap $current_pid"
+    if [ "$USER" == "$java_user" ];then
+      jmap -heap $current_pid
+    else
+      sudo -u $java_user jmap -heap $current_pid
+    fi
   fi
 
   #在当前进程执行
@@ -78,10 +82,14 @@ elif [ $num -eq '2' ];then
     fi
 
     #获取启动进程的用户名
-    user=`ps aux | awk -v PID=$current_pid '$2 == PID { print $1 }'`
+    java_user=`ps aux | awk -v PID=$current_pid '$2 == PID { print $1 }'`
 
-    echo "执行命令:sudo -u $user jmap -histo:live $current_pid"
-    sudo -u $user jmap -histo:live $current_pid | awk 'NR<24 {print $0}'
+    echo "执行命令:sudo -u $java_user jmap -histo:live $current_pid"
+    if [ "$USER" == "$java_user" ];then
+      jmap -histo:live $current_pid | awk 'NR<24 {print $0}'
+    else
+      sudo -u $java_user jmap -histo:live $current_pid | awk 'NR<24 {print $0}'
+    fi
   fi
 
   source ./menu_memory.sh
@@ -102,11 +110,15 @@ elif [ $num -eq '3' ];then
     fi
 
     #获取启动进程的用户名
-    user=`ps aux | awk -v PID=$current_pid '$2 == PID { print $1 }'`
+    java_user=`ps aux | awk -v PID=$current_pid '$2 == PID { print $1 }'`
 
-    echo "执行命令:sudo -u $user jmap -histo:live $current_pid(对象数量小于10将被忽略计算)"
+    echo "执行命令:sudo -u $java_user jmap -histo:live $current_pid(对象数量小于10将被忽略计算)"
     printf "数量\t\t\t空间\t\t\t尺寸\t\t\t名称\n"
-    sudo -u $user jmap -histo:live $current_pid | awk '(NR>3 && $2>10 && length($4)>0) {print $2"\t\t\t"$3"\t\t\t"$3/$2"\t\t\t"$4}'|sort -gr -k3| awk 'NR<21 {print $0}'
+    if [ "$USER" == "$java_user" ];then
+      jmap -histo:live $current_pid | awk '(NR>3 && $2>10 && length($4)>0) {print $2"\t\t\t"$3"\t\t\t"$3/$2"\t\t\t"$4}'|sort -gr -k3| awk 'NR<21 {print $0}'
+    else
+      sudo -u $java_user jmap -histo:live $current_pid | awk '(NR>3 && $2>10 && length($4)>0) {print $2"\t\t\t"$3"\t\t\t"$3/$2"\t\t\t"$4}'|sort -gr -k3| awk 'NR<21 {print $0}'
+    fi
   fi
 
   source ./menu_memory.sh
@@ -130,15 +142,24 @@ elif [ $num -eq '4' ];then
       fi
 
       #获取启动进程的用户名
-      user=`ps aux | awk -v PID=$current_pid '$2 == PID { print $1 }'`
+      java_user=`ps aux | awk -v PID=$current_pid '$2 == PID { print $1 }'`
 
-      fname="/tmp/hsperfdata_$user/dump_$current_pid.bin"
+      fname="/tmp/hsperfdata_$java_user/dump_$current_pid.bin"
 
-      echo "执行命令:sudo -u $user jmap -F -dump:format=b,file=$fname $current_pid导出堆内存..."
-      sudo -u $user jmap -F -dump:format=b,file=$fname $current_pid
-
+      echo "执行命令:sudo -u $java_user jmap -F -dump:format=b,file=$fname $current_pid导出堆内存..."
+      if [ "$USER" == "$java_user" ];then
+        jmap -F -dump:format=b,file=$fname $current_pid
+      else
+        sudo -u $java_user jmap -F -dump:format=b,file=$fname $current_pid
+      fi
+      
       if [ -f "$fname" ]; then
-        sudo -u $user gzip $fname
+        if [ "$USER" == "$java_user" ];then
+          gzip $fname
+        else
+          sudo -u $java_user gzip $fname
+        fi
+        
         if [ -f "$fname.gz" ]; then
           echo "堆内存已导出,路径为:$fname.gz"
         else

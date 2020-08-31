@@ -35,24 +35,24 @@ elif [ $num -eq '1' ];then
       echo 'unzip未安装，无法解压安装文件，请先安装unzip'
     else
       echo "正在下载arthas......"
-      sudo wget --no-check-certificate http://fengfu.io/attach/arthas-packaging-3.0.4-bin.zip >> /dev/null 2>&1
-      sudo mkdir arthas
-      sudo unzip arthas-packaging-3.0.4-bin.zip -d arthas >> /dev/null 2>&1
-      sudo rm -f arthas-packaging-3.0.4-bin.zip >> /dev/null 2>&1
+      wget --no-check-certificate http://fengfu.io/attach/arthas-packaging-3.0.4-bin.zip >> /dev/null 2>&1
+      mkdir arthas
+      unzip arthas-packaging-3.0.4-bin.zip -d arthas >> /dev/null 2>&1
+      rm -f arthas-packaging-3.0.4-bin.zip >> /dev/null 2>&1
 
-      read -p "请输入Java进程的所属用户:" user
+      read -p "请输入Java进程的所属用户:" java_user
 
       #获取用户所在组
-      group=`id -gn $user`
+      group=`id -gn $java_user`
 
       #修改属主
-      sudo chown $group.$user -R arthas >> /dev/null 2>&1
+      chown $group.$java_user -R arthas >> /dev/null 2>&1
     fi
   fi
   cd arthas
-  sudo -u $group.$user ./install-local.sh
+  sudo -u $group.$java_user ./install-local.sh
 
-  sudo -u $group.$user ./as.sh
+  sudo -u $group.$java_user ./as.sh
 
   source ./sub_menu.sh
 fi
