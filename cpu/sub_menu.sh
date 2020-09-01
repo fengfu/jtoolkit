@@ -76,10 +76,21 @@ elif [ "$num" == '1' ];then
 
   read -p "请按上述提示输入:" process_keyword
 
+  #获取启动进程的用户名
+  java_user=`ps aux | awk -v PID=$current_pid '$2 == PID { print $1 }'`
+
   if [[ ! -n "$process_keyword" ]]; then
-    sudo ./show_busy_threads_with_percent.sh -p $current_pid
+    if [ "$USER" == "$java_user" ];then
+      ./show_busy_threads_with_percent.sh -p $current_pid
+    else
+      sudo -u $java_user ./show_busy_threads_with_percent.sh -p $current_pid
+    fi
   elif [ $process_keyword == '0' ];then
-    sudo ./show_busy_threads_with_percent.sh
+    if [ "$USER" == "$java_user" ];then
+      ./show_busy_threads_with_percent.sh
+    else
+      sudo -u $java_user ./show_busy_threads_with_percent.sh
+    fi
   else
     is_num=`is_number $process_keyword`
     if [[ $is_num == 'false' ]]; then
@@ -89,7 +100,11 @@ elif [ "$num" == '1' ];then
       current_pid=`echo $process_keyword`
     fi
 
-    sudo ./show_busy_threads_with_percent.sh -p $current_pid
+    if [ "$USER" == "$java_user" ];then
+      ./show_busy_threads_with_percent.sh -p $current_pid
+    else
+      sudo -u $java_user ./show_busy_threads_with_percent.sh -p $current_pid
+    fi
   fi
 
   source ./sub_menu.sh
