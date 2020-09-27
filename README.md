@@ -1,4 +1,4 @@
-## [中文说明](https://github.com/fengfu/jtoolkit/README_CN.md) ##
+## [中文说明](https://github.com/fengfu/jtoolkit/blob/master/README_CN.md) ##
 # About JToolkit #
 ![JToolkit](https://farm2.staticflickr.com/1818/43432185524_a2f20ef41e_o.png)
 
