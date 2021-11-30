@@ -28,20 +28,20 @@ echo "                                                                          
 
 show_menu
 
-#默认父目录为/home/q
-home="/home/q"
-if [ ! -d $home ]; then
-  home="/usr/local"
-fi
-cd $home
+#默认安装目录为用户主目录
+install_home=$HOME
+# if [ ! -d $home ]; then
+#   home="/usr/local"
+# fi
+cd $install_home
 #在指定的home目录下创建jtoolkit目录
 if [ ! -d "jtoolkit" ]; then
-  sudo mkdir jtoolkit
+  mkdir jtoolkit
 fi
 cd jtoolkit
 if [ ! -f "jtoolkit.sh" ]; then
-  sudo wget --no-check-certificate --no-cache https://raw.githubusercontent.com/fengfu/jtoolkit/master/jtoolkit.sh >> /dev/null 2>&1
-  sudo chmod +x jtoolkit.sh >> /dev/null 2>&1
+  wget --no-check-certificate --no-cache https://raw.githubusercontent.com/fengfu/jtoolkit/master/jtoolkit.sh >> /dev/null 2>&1
+  chmod +x jtoolkit.sh >> /dev/null 2>&1
 fi
 
 read -p "请输入选项编号:" num
@@ -72,12 +72,12 @@ fi
 
 if [[ ! -z "$num" ]]; then
   if [ ! -d "$mod" ]; then
-    sudo mkdir $mod
+    mkdir $mod
   fi
   cd $mod
   if [ ! -f "sub_menu.sh" ]; then
     echo "正在下载$mod/sub_menu.sh"
-    sudo wget --no-check-certificate --no-cache https://raw.githubusercontent.com/fengfu/jtoolkit/master/$mod/sub_menu.sh >> /dev/null 2>&1
+    wget --no-check-certificate --no-cache https://raw.githubusercontent.com/fengfu/jtoolkit/master/$mod/sub_menu.sh >> /dev/null 2>&1
   fi
   source ./sub_menu.sh
 fi

@@ -68,18 +68,29 @@ elif [ "$num" == '1' ];then
   #如果文件不存在，先下载文件
   if [ ! -f "show_busy_threads_with_percent.sh" ]; then
     echo "正在下载show_busy_threads_with_percent.sh......"
-    sudo wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/cpu/show_busy_threads_with_percent.sh >> /dev/null 2>&1
-    sudo chmod +x show_busy_threads_with_percent.sh >> /dev/null 2>&1
+    wget --no-check-certificate https://raw.githubusercontent.com/fengfu/jtoolkit/master/cpu/show_busy_threads_with_percent.sh >> /dev/null 2>&1
+    chmod +x show_busy_threads_with_percent.sh >> /dev/null 2>&1
   fi
 
   show_inputtip_withall
 
   read -p "请按上述提示输入:" process_keyword
 
+  #获取启动进程的用户名
+  java_user=`ps aux | awk -v PID=$current_pid '$2 == PID { print $1 }'`
+
   if [[ ! -n "$process_keyword" ]]; then
-    sudo ./show_busy_threads_with_percent.sh -p $current_pid
+    if [ "$USER" == "$java_user" ];then
+      ./show_busy_threads_with_percent.sh -p $current_pid
+    else
+      sudo -u $java_user ./show_busy_threads_with_percent.sh -p $current_pid
+    fi
   elif [ $process_keyword == '0' ];then
-    sudo ./show_busy_threads_with_percent.sh
+    if [ "$USER" == "$java_user" ];then
+      ./show_busy_threads_with_percent.sh
+    else
+      sudo -u $java_user ./show_busy_threads_with_percent.sh
+    fi
   else
     is_num=`is_number $process_keyword`
     if [[ $is_num == 'false' ]]; then
@@ -89,7 +100,11 @@ elif [ "$num" == '1' ];then
       current_pid=`echo $process_keyword`
     fi
 
-    sudo ./show_busy_threads_with_percent.sh -p $current_pid
+    if [ "$USER" == "$java_user" ];then
+      ./show_busy_threads_with_percent.sh -p $current_pid
+    else
+      sudo -u $java_user ./show_busy_threads_with_percent.sh -p $current_pid
+    fi
   fi
 
   source ./sub_menu.sh
@@ -110,10 +125,10 @@ elif [ "$num" == '2' ];then
     fi
 
     #获取启动进程的用户名
-    user=`ps aux | awk -v PID=$current_pid '$2 == PID { print $1 }'`
+    java_user=`ps aux | awk -v PID=$current_pid '$2 == PID { print $1 }'`
 
     #获取用户所在组
-    group=`id -gn $user`
+    group=`id -gn $java_user`
 
     if [ ! -d "vjtop" ]; then
       has_it=`has_unzip`
@@ -126,16 +141,20 @@ elif [ "$num" == '2' ];then
         echo 'unzip未安装，无法解压安装文件，请先安装unzip'
       else
         echo "正在下载vjtop......"
-        sudo wget --no-check-certificate http://repo1.maven.org/maven2/com/vip/vjtools/vjtop/1.0.1/vjtop-1.0.1.zip >> /dev/null 2>&1
-        sudo unzip vjtop-1.0.1.zip >> /dev/null 2>&1
-        sudo rm -f vjtop-1.0.1.zip >> /dev/null 2>&1
+        wget --no-check-certificate http://repo1.maven.org/maven2/com/vip/vjtools/vjtop/1.0.1/vjtop-1.0.1.zip >> /dev/null 2>&1
+        unzip vjtop-1.0.1.zip >> /dev/null 2>&1
+        rm -f vjtop-1.0.1.zip >> /dev/null 2>&1
         #修改属主
-        sudo chown $group.$user -R vjtop >> /dev/null 2>&1
+        chown $group.$user -R vjtop >> /dev/null 2>&1
       fi
     fi
     if [ -d "vjtop" ]; then
       cd vjtop
-      sudo -u $user ./vjtop.sh $current_pid
+      if [ "$USER" == "$java_user" ];then
+        ./vjtop.sh $current_pid
+      else
+        sudo -u $user ./vjtop.sh $current_pid
+      fi
       cd ..
     else
       echo '解压vjtop失败'
@@ -163,7 +182,7 @@ elif [ "$num" == '3' ];then
       fi
 
       #获取启动进程的用户名
-      user=`ps aux | awk -v PID=$current_pid '$2 == PID { print $1 }'`
+      java_user=`ps aux | awk -v PID=$current_pid '$2 == PID { print $1 }'`
 
       duration_sec="600"
       read -p "请输入要采样的时间(单位:分钟,默认10分钟,建议5分钟以上):" duration
@@ -184,25 +203,29 @@ elif [ "$num" == '3' ];then
         core_version=`get_core_version`
         if [[ $core_version -ge 2634 ]]; then
           echo "正在下载async-profiler......"
-          sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.5-linux-x64.tar.gz >> /dev/null 2>&1
-          sudo mkdir async-profiler
-          sudo tar -xvf async-profiler-1.5-linux-x64.tar.gz -C async-profiler >> /dev/null 2>&1
-          sudo rm -f async-profiler-1.5-linux-x64.tar.gz >> /dev/null 2>&1
+          wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.5-linux-x64.tar.gz >> /dev/null 2>&1
+          mkdir async-profiler
+          tar -xvf async-profiler-1.5-linux-x64.tar.gz -C async-profiler >> /dev/null 2>&1
+          rm -f async-profiler-1.5-linux-x64.tar.gz >> /dev/null 2>&1
         else
           echo "正在下载async-profiler for linux core 2.6.34及以上版本......"
-          sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.5-linux-2.6.34-x64.tar.gz >> /dev/null 2>&1
-          sudo mkdir async-profiler
-          sudo tar -xvf async-profiler-1.5-linux-2.6.34-x64.tar.gz -C async-profiler >> /dev/null 2>&1
-          sudo rm -f async-profiler-1.5-linux-2.6.34-x64.tar.gz >> /dev/null 2>&1
+          wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.5-linux-2.6.34-x64.tar.gz >> /dev/null 2>&1
+          mkdir async-profiler
+          tar -xvf async-profiler-1.5-linux-2.6.34-x64.tar.gz -C async-profiler >> /dev/null 2>&1
+          rm -f async-profiler-1.5-linux-2.6.34-x64.tar.gz >> /dev/null 2>&1
         fi
         #修改属主
-        #sudo chown $group.$user -R vjtop >> /dev/null 2>&1
+        #sudo chown $group.$java_user -R vjtop >> /dev/null 2>&1
       fi
       cd async-profiler
-      fname="/tmp/hsperfdata_$user/flamegraph_$current_pid.svg"
+      fname="/tmp/hsperfdata_$java_user/flamegraph_$current_pid.svg"
       echo "正在收集数据,需要等待$duration分钟......"
 
-      sudo ./profiler.sh -d $duration_sec -f $fname $current_pid
+      if [ "$USER" == "$java_user" ];then
+        ./profiler.sh -d $duration_sec -f $fname $current_pid
+      else
+        sudo ./profiler.sh -d $duration_sec -f $fname $current_pid
+      fi
 
       if [ -f "$fname" ]; then
         echo "火焰图文件已生成,路径为:$fname"
@@ -235,7 +258,7 @@ elif [ "$num" == '4' ];then
       fi
 
       #获取启动进程的用户名
-      user=`ps aux | awk -v PID=$current_pid '$2 == PID { print $1 }'`
+      java_user=`ps aux | awk -v PID=$current_pid '$2 == PID { print $1 }'`
 
       duration_sec="600"
       read -p "请输入要采样的时间(单位:分钟,默认10分钟,建议5分钟以上):" duration
@@ -255,26 +278,30 @@ elif [ "$num" == '4' ];then
         core_version=`get_core_version`
         if [[ $core_version -ge 2634 ]]; then
           echo "正在下载async-profiler......"
-          sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.5-linux-x64.tar.gz >> /dev/null 2>&1
-          sudo mkdir async-profiler
-          sudo tar -xvf async-profiler-1.5-linux-x64.tar.gz -C async-profiler >> /dev/null 2>&1
-          sudo rm -f async-profiler-1.5-linux-x64.tar.gz >> /dev/null 2>&1
+          wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.5-linux-x64.tar.gz >> /dev/null 2>&1
+          mkdir async-profiler
+          tar -xvf async-profiler-1.5-linux-x64.tar.gz -C async-profiler >> /dev/null 2>&1
+          rm -f async-profiler-1.5-linux-x64.tar.gz >> /dev/null 2>&1
         else
           echo "正在下载async-profiler for linux core 2.6.34及以下版本......"
-          sudo wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.5-linux-2.6.34-x64.tar.gz >> /dev/null 2>&1
-          sudo mkdir async-profiler
-          sudo tar -xvf async-profiler-1.5-linux-2.6.34-x64.tar.gz -C async-profiler >> /dev/null 2>&1
-          sudo rm -f async-profiler-1.5-linux-2.6.34-x64.tar.gz >> /dev/null 2>&1
+          wget --no-check-certificate http://fengfu.io/attach/async-profiler-1.5-linux-2.6.34-x64.tar.gz >> /dev/null 2>&1
+          mkdir async-profiler
+          tar -xvf async-profiler-1.5-linux-2.6.34-x64.tar.gz -C async-profiler >> /dev/null 2>&1
+          rm -f async-profiler-1.5-linux-2.6.34-x64.tar.gz >> /dev/null 2>&1
         fi
 
         #修改属主
-        #sudo chown $group.$user -R vjtop >> /dev/null 2>&1
+        #sudo chown $group.$java_user -R vjtop >> /dev/null 2>&1
       fi
       cd async-profiler
-      fname="/tmp/hsperfdata_$user/jfr_$current_pid.jfr"
+      fname="/tmp/hsperfdata_$java_user/jfr_$current_pid.jfr"
       echo "正在收集数据,需要等待$duration分钟......"
 
-      sudo ./profiler.sh -d $duration_sec -o jfr -f $fname $current_pid
+      if [ "$USER" == "$java_user" ];then
+        ./profiler.sh -d $duration_sec -o jfr -f $fname $current_pid
+      else
+        sudo ./profiler.sh -d $duration_sec -o jfr -f $fname $current_pid
+      fi
 
       if [ -f "$fname" ]; then
         echo "JFR文件已生成,路径为:$fname"

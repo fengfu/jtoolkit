@@ -28,7 +28,7 @@ elif [[ $num -eq '0' ]]; then
 elif [ $num -eq '1' ];then
   if [ ! -f "jvm_option_check.sh" ]; then
     echo "正在下载jvm_option_check.sh......"
-    sudo wget --no-check-certificate --no-cache https://raw.githubusercontent.com/fengfu/jtoolkit/master/jvm/jvm_option_check.sh >> /dev/null 2>&1
+    wget --no-check-certificate --no-cache https://raw.githubusercontent.com/fengfu/jtoolkit/master/jvm/jvm_option_check.sh >> /dev/null 2>&1
   fi
   sh jvm_option_check.sh
 
@@ -37,7 +37,7 @@ elif [ $num -eq '1' ];then
 elif [ $num -eq '2' ];then
   if [ ! -f "jvm_option_generate.sh" ]; then
     echo "正在下载jvm_option_generate.sh......"
-    sudo wget --no-check-certificate --no-cache https://raw.githubusercontent.com/fengfu/jtoolkit/master/jvm/jvm_option_generate.sh >> /dev/null 2>&1
+    wget --no-check-certificate --no-cache https://raw.githubusercontent.com/fengfu/jtoolkit/master/jvm/jvm_option_generate.sh >> /dev/null 2>&1
   fi
   sh jvm_option_generate.sh
 

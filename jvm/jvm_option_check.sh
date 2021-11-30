@@ -36,13 +36,17 @@ if [[ ! $process_keyword == 'q' ]]; then
   fi
 
   #获取启动进程的用户名
-  user=`ps aux | awk -v PID=$current_pid '$2 == PID { print $1 }'`
+  java_user=`ps aux | awk -v PID=$current_pid '$2 == PID { print $1 }'`
 
   #获取VM.options
-  vm_line=`sudo -u $user jcmd $current_pid VM.command_line|grep jvm_args`
+  if [ "$USER" == "$java_user" ];then
+    vm_line=`jcmd $current_pid VM.command_line|grep jvm_args`
+  else
+    vm_line=`sudo -u $user jcmd $current_pid VM.command_line|grep jvm_args`
+  fi
 
   # #获取VM.version
-  # vm_version=`sudo -u $user jcmd $pid VM.version|grep JDK|awk '{print $2}'`
+  # vm_version=`sudo -u $java_user jcmd $pid VM.version|grep JDK|awk '{print $2}'`
   # #获取大版本
   # ver=${vm_version:0:1}
 
@@ -91,7 +95,11 @@ if [[ ! $process_keyword == 'q' ]]; then
   fi
 
   #获取gc概况
-  gc_str=`(sudo -u $user jstat -gcutil $current_pid | awk 'NR>1 {print $0}')`
+  if [ "$USER" == "$java_user" ];then
+    gc_str=`(jstat -gcutil $current_pid | awk 'NR>1 {print $0}')`
+  else
+    gc_str=`(sudo -u $user jstat -gcutil $current_pid | awk 'NR>1 {print $0}')`
+  fi
   gc_stat=($gc_str)
   ygc="0"
   ygct="0"
